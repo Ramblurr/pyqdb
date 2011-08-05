@@ -1,2 +1,3 @@
-web.py
-pymongo
+flask
+jinja2
+sqlalchemy
