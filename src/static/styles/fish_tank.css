@@ -1,0 +1,66 @@
+/*
+###############################################################################
+# Chirpy! 0.3, a quote management system                                      #
+# Copyright (C) 2005-2007 Tim De Pauw <ceetee@users.sourceforge.net>          #
+###############################################################################
+# This program is free software; you can redistribute it and/or modify it     #
+# under the terms of the GNU General Public License as published by the Free  #
+# Software Foundation; either version 2 of the License, or (at your option)   #
+# any later version.                                                          #
+#                                                                             #
+# This program is distributed in the hope that it will be useful, but WITHOUT #
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or       #
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for   #
+# more details.                                                               #
+#                                                                             #
+# You should have received a copy of the GNU General Public License along     #
+# with this program; if not, write to the Free Software Foundation, Inc., 51  #
+# Franklin St, Fifth Floor, Boston, MA  02110-1301  USA                       #
+###############################################################################
+
+###############################################################################
+# fish_tank.css                                                               #
+# "Fish Tank" color theme for the default theme                               #
+###############################################################################
+# $Id:: fish_tank.css 291 2007-02-05 21:24:46Z ceetee                       $ #
+###############################################################################
+*/
+
+a:hover, a:active {
+	color: #3F6;
+}
+
+h1 a, h1 a:link, h1 a:visited {
+	background: #BCF;
+	border-top-color: #C6D6FF;
+	border-bottom-color: #B9C9F9;
+}
+
+ul#navigation li a:hover, ul#navigation li a:active,
+ul.tabbed-pane-header li a:hover, ul.tabbed-pane-header li a:active {
+	background: #AFD;
+	border-color: #A0F0D0;
+}
+
+ul.quote-list li:hover h3.quote-header {
+	background: #CFE;
+	border-color: #C9FFE9;
+}
+
+ul.quote-list li:hover .quote-container {
+	background: #ECFFFC;
+}
+
+ul.quote-list li:hover .quote-footer, ul.quote-list li:hover .quote-tags a {
+	color: #9BA;
+	border-color: #C9FFE9;
+}
+
+ul.tabbed-pane-header li a.active-tab {
+	background: #ECECF6;
+	border-top-color: #B0C0F0;
+}
+
+ul.tabbed-pane-contents {
+	border: 1px solid #ECECF6;
+}

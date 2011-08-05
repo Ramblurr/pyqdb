@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+<div id="welcome-box"><div id="welcome-message-container">
+        <div id="welcome-message">
+                <h2 id="page-title">Welcome!
+                </h2>
+                <p>We feature quotes about humorous experiences from VT students, teachers, and alumni. Quotes do not have to be related to VT or limited to the VT community; quotes can be about any topic and anyone familiar with the VT community can read and post quotes.</p>
+                <div id="disclaimer">
+                <p>Please note the following: vtbash.org does not have any affiliation with Virginia Tech. Quotes on vtbash.org do not necessarily reflect the views of the authors, administrators, or moderators of this site, nor do they reflect the views of Virginia Tech.</p>
+
+                <p>The name "vtbash.org" is not meant as a derogatory comment towards Virginia Tech or any entity - it does not refer to "bashing" and should not be taken as such. The name is inspired by <a href="http://bash.org" title="bash.org">bash.org</a>, a similar online quote database.</p>
+
+                <p>Quotes on vtbash.org have no implicit or explicit claim of validity; all quotes are unverified.</p>
+                </div>
+        </div>
+</div>
+<div id="news-display-container">
+        <div id="news-display">
+                <h2 id="news-title">Latest News
+                </h2>
+                <ul id="news-list">
+                        <li>
+                                <div class="news-text">Finals week is here, but we're dicking around on vtbash.</div>
+                                <p class="news-footer">&mdash;<span id="author">rmblr</span>,
+                                    <span id="date">Sun May  8 15:26:07 EDT 2011</span>
+<!--                                     <a class="news-edit">edit</a> -->
+<!--                                     <a class="news-remove">remove</a> -->
+                                </p>
+                        </li>
+                </ul>
+        </div>
+</div>
+</div>
+{% endblock %}

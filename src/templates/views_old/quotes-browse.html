@@ -1,0 +1,83 @@
+<div id="quotes-content">
+<div class="quote-browser" id="quote-browser-top">
+<a class="prev-page">← Previous Page</span>
+<a class="next-page">Next Page →</a>
+</div>
+<h2>
+Quote Browser
+</h2>
+
+<ul class="quote-list">
+
+<li id="quote->ID" class="quote unapproved flagged">
+<div class="quote-container">
+        <div class="quote-header" id="quote-header-ID">
+
+        
+        <!-- if IS_APPROVED -->
+                <a href="LINK_URL" title="Permanent Link to Quote" class="quote-permalink"><span class="quote-id">#ID</span></a>
+                <a href="RATING_UP_URL" rel="nofollow" title="RATING_UP_DESCRIPTION" class="quote-rating-up casted-vote" id="quote-rating-up-ID">Up &uarr;</a>
+                <span id="quote-rating-ID" class="quote-rating" title="Quote Rating">RATING_TEXT</span><span
+                class="quote-vote-count" title="Quote Vote Count">/<span id="quote-vote-count-ID">VOTE_COUNT</span></span>
+                <a href="RATING_DOWN_URL" rel="nofollow" title="RATING_DOWN_DESCRIPTION" class="quote-rating-down casted-vote" id="quote-rating-down-ID">Down &darr;</a>
+
+                <!-- if flagged -->
+                <span class="quote-flagged">[Flagged]</span>
+                <!-- else-->
+                <a href="REPORT_URL" rel="nofollow" title="REPORT_DESCRIPTION" class="quote-report" id="quote-report-ID">[Report]</a>
+                <!-- end if flagged-->
+                <span class="quote-date" title="DATE_DESCRIPTION"></span>
+                <span id="quote-live-vote-result-ID" class="quote-live-vote-result"></span>
+                <!-- if allow edit -->
+<!--                 <a href="EDIT_URL" class="quote-edit" title="EDIT_DESCRIPTION"></a> -->
+                <!-- endif allow edit -->
+                <!-- if allow unflag-->
+<!--                 <a href="UNFLAG_URL" class="quote-unflag" title="UNFLAG_DESCRIPTION"></a> -->
+                <!-- endif allow unflag-->
+                <!-- if allow allow remove -->
+                 <a href="REMOVE_URL" id="quote-remove-ID" class="quote-remove" title="REMOVE_DESCRIPTION"></a>
+                <!-- endif allow allow remove -->
+        <!-- else 
+                <span id="quote-live-vote-result-ID" class="quote-live-vote-result"></span>
+                <a href="LINK_URL"
+                title="LINK_DESCRIPTION" class="quote-permalink"><span class="quote-id">#ID</span></a>
+                <a href="RATING_UP_URL" rel="nofollow" title="RATING_UP_DESCRIPTION" class="quote-rating-up casted-vote" id="quote-rating-up-ID">UP&uarr;</a>
+                <span id="quote-rating-ID" class="quote-rating" title="RATING_DESCRIPTION">RATING_TEXT</span>
+                <span class="quote-vote-count" title="VOTE_COUNT_DESCRIPTION">/<span id="quote-vote-count-ID">VOTE_COUNT</span></span>
+                <a href="RATING_DOWN_URL" rel="nofollow" title="RATING_DOWN_DESCRIPTION" class="quote-rating-down casted-vote" id="quote-rating-down-ID">DOWN&darr;</a>
+                <span class="quote-date" title="DATE_DESCRIPTION">SUBMITTED_TEXT</span>-->
+        <!-- endif -->
+        </div>
+        <blockquote class="quote-body">
+                <pre>BODY</pre>
+        </blockquote>
+        <!-- if notes or tags tags -->
+        <div class="quote-footer">
+        <!-- if notes-->
+        <!--<div class="quote-notes">
+                <p><em class="quote-notes-title">NOTES_TITLE</em>
+                NOTES
+                </p>
+        </div>-->
+        <!-- endif notes-->
+        <!-- if tags -->
+        <div class="quote-tags">
+                <p><em class="quote-tags-title">TAGS:</em>
+                <!--tag loop-->
+                    <a href="URL" title="LINK_DESCRIPTION">TAG</a>
+                <!--endtag loop-->
+                </p>
+        </div> 
+        <!-- endif tags -->
+        </div>
+        <!-- endif notes or tags -->
+</div>
+</li>
+
+
+</ul>
+<div class="quote-browser" id="quote-browser-bottom">
+<span class="inactive">&larr; Previous Page</span>
+<a>Next Page &rarr;</a>
+</div>
+</div>

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="submit-form">
+<h2>
+Submit Quote
+</h2>
+<b>General Guidelines</b>
+<ul>
+<li>We accept all types of quotes, whether it be online or in real life.</li>
+<li>Please do not send in obscenities, profanity, or quotes that are disparaging to VT faculty.</li>
+<li>Add context and comments with two slashes (<code>// Comment here</code>). Keep it short but complete.</li>
+<li>Provide actions in between asterisks (<code>*hits head on desk*</code>).</li>
+<li>Check your submission for spelling and grammar. Use standard English, proper punctuation, and common sense.</li>
+</ul>
+<div id="disclaimer"><b>Please note:</b><br/>
+<ul>
+<li>Your quote can be viewed by anyone, including parents, friends, and faculty. Think before you submit.</li>
+<li>We log your submissions and votes by IP address, but we can not identify your personal information.</li>
+<li>Your quote may be edited in any number of ways, but we won't change anything important.</li>
+</ul></div>
+<form id="quote-submit" method="POST" action="/quotes/submit" name="quote-submit">
+    <div id="quote-container">
+            <label for="quote-field">Enter your quote here:</label>
+            <textarea name="quote" id="quote-field" rows="8" cols="80"></textarea>
+    </div>
+    <div id="tags-container">
+            <label for="tags-field">Enter descriptive tags for the quote to aid searching:</label>
+            <input type="text" name="tags" value="" id="tags-field" />
+    </div>
+    <div id="submit-container">
+            <input type="submit" id="submit-button" />
+    </div>
+</form>
+</div>
+{% endblock %}

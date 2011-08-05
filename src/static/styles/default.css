@@ -1,0 +1,163 @@
+/*
+###############################################################################
+# Chirpy! 0.3, a quote management system                                      #
+# Copyright (C) 2005-2007 Tim De Pauw <ceetee@users.sourceforge.net>          #
+###############################################################################
+# This program is free software; you can redistribute it and/or modify it     #
+# under the terms of the GNU General Public License as published by the Free  #
+# Software Foundation; either version 2 of the License, or (at your option)   #
+# any later version.                                                          #
+#                                                                             #
+# This program is distributed in the hope that it will be useful, but WITHOUT #
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or       #
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for   #
+# more details.                                                               #
+#                                                                             #
+# You should have received a copy of the GNU General Public License along     #
+# with this program; if not, write to the Free Software Foundation, Inc., 51  #
+# Franklin St, Fifth Floor, Boston, MA  02110-1301  USA                       #
+###############################################################################
+
+###############################################################################
+# default.css                                                                 #
+# "Default" color theme for the default theme                                 #
+###############################################################################
+# $Id:: default.css 291 2007-02-05 21:24:46Z ceetee                         $ #
+###############################################################################
+*/
+
+p {
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 25px;
+}
+
+
+h1,h2,h3, .quote-header {
+    font-family: 'Arvo', Georgia, Times, serif;
+}
+
+h1 {
+    font-size: 40px;
+/*     line-height: 70px; */
+}
+
+pre {
+    font-family: 'Inconsolata', Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, Dejavu Sans Mono, Courier New, monospace, serif;
+   font-size: medium;
+}
+
+.quote-header {
+    font-size: medium;
+}
+
+ul.quote-list li .quote-notes .quote-notes-title, ul.quote-list li .quote-tags .quote-tags-title, ul.quote-list li .quote-footer p {
+    font-size: small;
+}
+
+ul#news-list .news-footer {
+font-weight: bold;
+margin-bottom: 1.5em;
+color: #AAA;
+font-size: 11px;
+text-align: right;
+border-bottom: 1px dotted;
+}
+
+#disclaimer {
+padding: 7px;
+background-color: lemonChiffon;
+-moz-border-radius: 0.5em;
+border-radius: 0.5em;
+}
+
+a:hover, a:active {
+    color: #999;
+}
+
+a.quote-rating-up {
+    color: #339933;
+}
+
+a.quote-rating-down {
+    color: #993333;
+}
+
+h1 a, h1 a:link, h1 a:visited {
+    background: #ECECEC;
+    border-top-color: #ECECEC;
+    border-bottom-color: #ECECEC;
+}
+
+h1 a:hover, h1 a:active {
+        text-decoration: none;
+        color: #777777;
+}
+
+ul#navigation li a:hover, ul#navigation li a:active,
+ul.tabbed-pane-header li a:hover, ul.tabbed-pane-header li a:active {
+    background: #ECECEC;
+    border-color: #000000;
+}
+
+ul.quote-list li:hover div.quote-header {
+    background: #ECECEC;
+    border-color: #ECECEC;
+}
+
+ul.quote-list li:hover .quote-container {
+    background: #F7F7F7;
+}
+
+ul.tabbed-pane-header li a.active-tab {
+    background: #ECECEC;
+    border-top-color: #000000;
+}
+
+ul.tabbed-pane-contents {
+    border: 1px solid #ECECEC;
+}
+
+a:hover, a:active {
+	color: #F63;
+}
+
+h1 a, h1 a:link, h1 a:visited {
+	background: #660000;
+	border-top-color: #800000;
+        border-bottom-color: #4D0000;
+        color: white;
+}
+
+h1 a, h1 a:hover {
+        color: #FF6600;
+}
+
+ul#navigation li a:hover, ul#navigation li a:active,
+ul.tabbed-pane-header li a:hover, ul.tabbed-pane-header li a:active {
+	background: #FF6600;
+	border-color: #CC5200;
+}
+
+ul.quote-list li:hover div.quote-header {
+	background: #FEC;
+	border-color: #FFE9C9;
+}
+
+ul.quote-list li:hover .quote-container {
+	background: #FFFCEC;
+}
+
+ul.quote-list li:hover .quote-footer, ul.quote-list li:hover .quote-tags a {
+	color: #BA9;
+	border-color: #FFE9C9;
+}
+
+ul.tabbed-pane-header li a.active-tab {
+	background: #ECF6EC;
+	border-top-color: #C0F0B0;
+}
+
+ul.tabbed-pane-contents {
+	border: 1px solid #ECF6EC;
+}

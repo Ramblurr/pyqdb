@@ -1,0 +1,1107 @@
+/*
+###############################################################################
+# Chirpy! 0.3, a quote management system                                      #
+# Copyright (C) 2005-2007 Tim De Pauw <ceetee@users.sourceforge.net>          #
+###############################################################################
+# This program is free software; you can redistribute it and/or modify it     #
+# under the terms of the GNU General Public License as published by the Free  #
+# Software Foundation; either version 2 of the License, or (at your option)   #
+# any later version.                                                          #
+#                                                                             #
+# This program is distributed in the hope that it will be useful, but WITHOUT #
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or       #
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for   #
+# more details.                                                               #
+#                                                                             #
+# You should have received a copy of the GNU General Public License along     #
+# with this program; if not, write to the Free Software Foundation, Inc., 51  #
+# Franklin St, Fifth Floor, Boston, MA  02110-1301  USA                       #
+###############################################################################
+
+###############################################################################
+# default.css                                                                 #
+# The default theme, without color theme-specific style                       #
+###############################################################################
+# $Id:: default.css 294 2007-02-06 00:01:15Z ceetee                         $ #
+###############################################################################
+*/
+
+html {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 2em 5em;
+	background: #FBFBFB;
+	color: black;
+	font-size: 12px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	color: #555;
+}
+
+a:hover, a:active {
+	text-decoration: underline;
+}
+
+.news-text strong {
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+}
+
+.news-text em {
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	border-bottom: 1px solid #999;
+}
+
+h1, h2, h3, .quote-header {
+	font-family: Trebuchet MS, Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	margin: 0 0 1em 0;
+}
+
+h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 275%;
+}
+
+h1 a, h1 a:link, h1 a:visited {
+	-moz-border-radius: 1em;
+	border-radius: 1em;
+	margin: 0;
+	padding: 0.1em 0.5em;
+	border-top: 0.25em solid;
+	border-bottom: 0.25em solid;
+	color: black;
+	text-decoration: none;
+	display: block;
+}
+
+h1 a:hover, h1 a:active {
+	text-decoration: underline;
+	color: black;
+}
+
+h2 {
+	font-size: 175%;
+}
+
+h3 {
+	font-size: 120%;
+}
+
+p {
+	margin: 0 0 1em 0;
+}
+
+form {
+	display: inline;
+}
+
+table {
+	border-collapse: collapse;
+	margin: 0;
+	padding: 0;
+}
+
+thead, tbody, tr, td {
+	margin: 0;
+	padding: 0;
+}
+
+input, select, textarea {
+	border: 1px solid #CCC;
+	background: white;
+	color: #666;
+	margin: 0.1em;
+	padding: 0.25em;
+	-moz-border-radius: 0.5em;
+	border-radius: 0.5em;
+}
+
+select option {
+	padding: 0.1em;
+	margin: 0.1em;
+	background: #F9F9F9;
+}
+
+input[type=radio], input[type=checkbox] {
+	border: none;
+	vertical-align: middle;
+}
+
+input, select {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+textarea {
+	font-family: Consolas, Monaco, Courier New, monospace;
+	font-size: 12px;
+	line-height: 1.5em;
+}
+
+input:focus, select:focus, textarea:focus {
+	color: black;
+	border-color: #999;
+}
+
+input[type=submit], input[type=reset], input[type=button] {
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover {
+	color: black;
+	cursor: pointer;
+}
+
+label {
+	border-bottom: 1px dotted transparent;
+}
+
+label:hover {
+	border-color: #CCC;
+	cursor: pointer;
+}
+
+ul#navigation {
+	-moz-border-radius: 0 0 1em 1em;
+	border-radius: 0 0 1em 1em;
+	margin: 0 4em 3em 0;
+	padding: 0.2em 0;
+	list-style-type: none;
+	font-size: 90%;
+	text-align: right;
+	text-transform: uppercase;
+	white-space: nowrap;
+	letter-spacing: 0.1em;
+}
+
+ul#navigation li {
+	display: inline;
+	margin: 0;
+	padding: 0 0 0 0.5em;
+}
+
+ul#navigation li a, ul#navigation li a:visited {
+	-moz-border-radius: 0 0 1em 1em;
+	border-radius: 0 0 1em 1em;
+	background: #EEE;
+	margin: 0;
+	padding: 0.2em 1em 0.3em 1em;
+	color: black;
+	text-decoration: none;
+	border-bottom: 0.2em solid #E0E0E0;
+}
+
+#footer {
+	clear: both;
+	float: right;
+	font-size: 75%;
+	text-align: right;
+	border-top: 1px solid black;
+	margin: 2.5em 0 0 0;
+	padding: 0.75em 1em 0 10em;
+	line-height: 1.75em;
+}
+
+#content {
+	padding: 1.5em 2.5em;
+	-moz-border-radius: 2.5em;
+	border-radius: 2.5em;
+	background: white;
+	min-height: 15em;
+	line-height: 1.75em;
+}
+
+ul.quote-list {
+	list-style-type: none;
+	margin: 0 0 1em 0;
+	padding: 0;
+}
+
+ul.quote-list li {
+	margin: 0 0 1em 0;
+	padding: 0;
+}
+
+ul.quote-list .quote-container {
+	background: #FCFCFC;
+	-moz-border-radius: 1em 1em 2em 0.5em;
+	border-radius: 1em 1em 2em 0.5em;
+}
+
+ul.quote-list li div.quote-header {
+	margin: 0;
+	padding: 0.25em 0.75em;
+	border: 1px #F4F4F4 solid;
+	background: #F7F7F7;
+	-moz-border-radius: 0.5em 0.5em 0 0;
+	border-radius: 0.5em 0.5em 0 0;
+}
+
+ul.quote-list li div.quote-header * {
+	margin: 0 0.125em;
+	padding: 0;
+}
+
+ul.quote-list li div.quote-header * * {
+	margin: 0;
+}
+
+ul.quote-list li div.quote-header a.casted-vote {
+	opacity: 0.2;
+	text-decoration: line-through;
+	cursor: default;
+}
+
+/* opacity doesn't work in IE, so hide it altogether */
+* html ul.quote-list li div.quote-header a.casted-vote,
+*:first-child + html ul.quote-list li div.quote-header a.casted-vote {
+	visibility: hidden;
+}
+
+blockquote.quote-body {
+	margin: 0.5em 0.75em;
+	padding: 0;
+	font-family: Consolas, Monaco, Courier New, monospace;
+	font-size: 12px;
+}
+
+blockquote.quote-body p {
+	margin: 0;
+	padding: 0;
+}
+
+#confirmation-form blockquote.quote-body,
+#quote-removal-confirmation-form blockquote.quote-body {
+	margin: 1em 0;
+	padding: 1em;
+	border: 1px dashed #EEE;
+}
+
+ul.quote-list li .quote-footer {
+	margin: 0.25em 0.75em;
+	padding: 0;
+	border-top: 1px dashed #EEE;
+	line-height: 1.5em;
+}
+
+ul.quote-list li .quote-footer, ul.quote-list li .quote-footer a {
+	color: #999;
+}
+
+ul.quote-list li .quote-footer p {
+	font-size: 80%;
+	margin: 0;
+	padding: 0 0 0 2.5ex;
+	text-indent: -2.5ex;
+}
+
+ul.quote-list li .quote-notes .quote-notes-title,
+ul.quote-list li .quote-tags .quote-tags-title {
+	font-size: 80%;
+	text-transform: uppercase;
+	font-style: normal;
+	font-weight: normal;
+}
+
+ul.quote-list div.quote-header .quote-edit,
+ul.quote-list div.quote-header .quote-remove,
+ul.quote-list div.quote-header .quote-unflag,
+ul.quote-list div.quote-header .quote-live-vote-result {
+	font-size: 80%;
+}
+
+ul.quote-list div.quote-header .quote-vote-count {
+	margin-left: 0;
+	font-size: 90%;
+}
+
+ul.quote-list div.quote-header .quote-live-vote-result {
+/* 	float: right; */
+/*         overflow: hidden; */
+/*         width: auto; */
+        opacity: 0;
+        color: red;
+	text-transform: uppercase;
+}
+
+ul.quote-list li.flagged div.quote-header {
+	border: 1px #E9E9E9 solid;
+	background: #ECECEC;
+}
+
+ul.quote-list li.unapproved div.quote-header {
+	border: 1px #F9E9E9 solid;
+	background: #FCF0F0;
+}
+
+.flag-options label, .approval-options label {
+	margin-right: 0.25em;
+}
+
+#welcome-message-container {
+	width: 50%;
+	float: left;
+}
+
+#welcome-message {
+	padding-right: 1.25em;
+}
+
+#news-display-container {
+	width: 50%;
+	float: right;
+}
+
+#news-display {
+	padding-left: 1.25em;
+}
+
+#start-page-end {
+	clear: both;
+}
+
+ul#news-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul#news-list .news-text {
+	margin-bottom: 0.5em;
+}
+
+ul#news-list .news-footer {
+	font-weight: bold;
+	margin-bottom: 1.5em;
+}
+
+ul#news-list .news-footer .news-edit, ul#news-list .news-footer .news-remove {
+	font-size: 80%;
+}
+
+.quote-browser {
+	margin: 0;
+	padding: 0;
+}
+
+#quote-browser-top {
+	float: right;
+	margin-top: 0.25em;
+}
+
+#quote-browser-bottom {
+	text-align: right;
+	margin-bottom: 0.25em;
+}
+
+.quote-browser * {
+	margin: 0 0 0 0.1em;
+	padding: 0.25em 0.5em;
+	background: #F9F9F9;
+	-moz-border-radius: 0 0.5em 2em 0.5em;
+	border-radius: 0 0.5em 2em 0.5em;
+}
+
+.quote-browser .inactive {
+	color: #C9C9C9;
+}
+
+#search-haiku {
+	font-family: Trebuchet MS, Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-style: italic;
+	font-size: 14px;
+	color: #DDD;
+	letter-spacing: 0.5ex;
+	line-height: 2.25em;
+	text-align: right;
+	margin: -3em 0 1em 0;
+	padding: 0 2em;
+	cursor: default;
+}
+
+#search-haiku del {
+	display: none;
+}
+
+#search-haiku:hover {
+	letter-spacing: 0.4ex;
+}
+
+/* IE hates cool CSS */
+* html #search-haiku, *:first-child + html #search-haiku {
+	display: none;
+}
+
+#search-haiku:hover del {
+	display: inline;
+	text-decoration: none;
+	color: #AAA;
+}
+
+#search-form {
+	white-space: nowrap;
+	margin-bottom: 1.5em;
+}
+
+#search-form #query-container, #search-form #submit-container {
+	display: inline;
+}
+
+#search-form #query-field {
+	width: 33%;
+}
+
+#submit-form #quote-field, #edit-quote-form #quote-field, .quote-data .body-field,
+#submit-form #notes-field, #edit-quote-form #notes-field, .quote-data .notes-field,
+#edit-news-item-form #news-item-field {
+	width: 95%;
+	height: 12em;
+	display: block;
+}
+
+#submit-form #notes-field, #edit-quote-form #notes-field, .quote-data .notes-field {
+	height: 6em;
+}
+
+.quote-data .field-container {
+	margin: 0.5em 0.75em;
+}
+
+#submit-form #quote-container, #submit-form #notes-container,
+#submit-form #tags-container, #submit-form #captcha-container,
+#edit-quote-form #quote-container, #edit-quote-form #notes-container,
+#edit-quote-form #tags-container {
+	margin-bottom: 1em;
+}
+
+#submit-form #tags-container label,
+#edit-quote-form #tags-container label {
+	display: block;
+}
+
+#submit-form #tags-container input,
+#edit-quote-form #tags-container input,
+.quote-data input {
+	width: 95%;
+}
+
+#submit-form #captcha-image {
+	vertical-align: middle;
+	padding: 0;
+	margin: 0.1em 1ex 0.1em 0.1em;
+}
+
+#submit-form #captcha-code-field {
+	width: 16ex;
+}
+
+#jump-to-quote-form #jump-to-id-field {
+	width: 8ex;
+}
+
+#jump-to-quote-form #jump-to-quote-submit-button {
+	padding: 0.1em 0.5em;
+}
+
+ul.tag-cloud {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.tag-cloud li {
+	display: inline;
+	margin: 0;
+	padding: 0 1ex 0 0;
+}
+
+ul.tag-cloud li a {
+	white-space: nowrap;
+}
+
+#confirmation-form #confirm-button, #confirmation-form #cancel-button {
+	width: 16ex;
+}
+
+ul.tabbed-pane-header {
+	list-style-type: none;
+	margin: 0 0 0 1.5em;
+	padding: 0;
+	line-height: 2em;
+	white-space: nowrap;
+}
+
+ul.tabbed-pane-header li {
+	display: inline;
+	margin: 0 0.25em 0 0;
+	padding: 0;
+}
+
+ul.tabbed-pane-header li a, ul.tabbed-pane-header li a:visited {
+	padding: 0.25em 0.75em 0.5em 0.75em;
+	background: #F0F0F0;
+	border-top: 0.2em solid #ECECEC;
+	color: black;
+	text-decoration: none;
+	-moz-border-radius: 0.5em 0.5em 0 0;
+	border-radius: 0.5em 0.5em 0 0;
+	cursor: pointer;
+}
+
+ul.tabbed-pane-contents {
+	list-style-type: none;
+	margin: 0;
+	padding: 1em;
+	-moz-border-radius: 1em;
+	border-radius: 1em;
+}
+
+ul.tabbed-pane-contents > li {
+	display: block;
+	margin: 0;
+	padding: 0;
+	min-height: 15em;
+}
+
+.tabbed-pane-contents .tab-title {
+	display: none;
+}
+
+#post-news-form {
+	margin-bottom: 1em;
+}
+
+#post-news-form #news-field {
+	width: 95%;
+	height: 12em;
+	display: block;
+}
+
+#quick-manage-quote-form #quick-manage-quote-id-container,
+#quick-manage-quote-form #quick-manage-quote-options,
+#quick-manage-quote-form #quick-manage-quote-submit {
+	display: inline;
+	margin-right: 0.5em;
+}
+
+#quick-manage-quote-form #quick-manage-quote-id-field {
+	width: 8ex;
+}
+
+#account-manager {
+	text-align: right;
+	padding: 0 1em;
+}
+
+#account-manager #username-select-container {
+	width: 40%;
+	float: left;
+}
+
+#account-manager #username-select {
+	width: 100%;
+	height: 20em;
+}
+
+#account-manager #username-select #username-new-user {
+	font-weight: bold;
+}
+
+#account-manager #username-select .user-level-9,
+#account-manager #level-select .user-level-9,
+#edit-news-item-form #news-item-poster-select .user-level-9 {
+	background: #FFF0F9;
+}
+
+#account-manager #username-select .user-level-6,
+#account-manager #level-select .user-level-6,
+#edit-news-item-form #news-item-poster-select .user-level-6  {
+	background: #FFF9F0;
+}
+
+#account-manager #username-select .user-level-3,
+#account-manager #level-select .user-level-3,
+#edit-news-item-form #news-item-poster-select .user-level-3  {
+	background: #F0FFE9;
+}
+
+#account-manager #username-field {
+	margin-top: 2em;
+}
+
+#account-manager #username-field,
+#account-manager #password-field,
+#account-manager #repeat-password-field {
+	width: 40%;
+}
+
+#account-manager #username-select-container,
+#account-manager #username-container,
+#account-manager #repeat-password-container,
+#account-manager #level-container {
+	margin-bottom: 0.75em;
+}
+
+#account-manager #account-manager-result {
+	margin: 2em 0 0 0;
+	padding: 0.25em 0 0 0;
+	width: 45%;
+	float: right;
+	font-weight: bold;
+	border-top: 1px solid #EEE;
+}
+
+#edit-news-item-form #news-item-poster-container,
+#edit-news-item-form #edit-news-item-submit-container {
+	display: inline;
+}
+
+#post-news-form #news-container, #edit-news-item-form #news-item-container {
+	margin-bottom: 0.75em;
+}
+
+#login-form #user-name-container,
+#login-form #password-container,
+#login-form #submit-container,
+#change-password-form #current-password-container,
+#change-password-form #new-password-container,
+#change-password-form #repeat-new-password-container,
+#change-password-form #submit-container {
+	display: inline;
+	margin-right: 0.5em;
+	white-space: nowrap;
+}
+
+#login-form #user-name-field,
+#login-form #password-field {
+	width: 25ex;
+}
+
+#change-password-form #current-password-field,
+#change-password-form #new-password-field,
+#change-password-form #repeat-new-password-field {
+	width: 20ex;
+}
+
+#mass-approve-container, #mass-unflag-container {
+	display: inline;
+}
+
+#update-information {
+	background: #FFF6E6;
+	border: 2px dashed #F90;
+	color: #E70;
+	margin: 2em 5%;
+	padding: 0;
+	font-weight: bold;
+	line-height: 1.25em;
+}
+
+#update-information a, #update-information a:visited {
+	display: block;
+	color: #E70;
+	text-align: center;
+	margin: 0;
+	padding: 1em;
+}
+
+#update-information a:hover {
+	text-decoration: none;
+	color: #E50;
+}
+
+#update-information p {
+	text-align: center;
+	margin: 0.75em 1em 0.25em 1em;
+	padding: 0;
+}
+
+#update-information blockquote {
+	text-align: center;
+	margin: 0 1em 0.75em 1em;
+	color: #666;
+	font-weight: normal;
+	font-style: italic;
+}
+
+#event-log-table {
+	border-collapse: collapse;
+	width: 100%;
+	clear: both;
+}
+
+.event-log-navigation {
+	text-align: center;
+}
+
+#event-log-navigation-top {
+	margin-bottom: 0.75em;
+}
+
+#event-log-navigation-bottom {
+	margin-top: 0.75em;
+}
+
+.event-log-navigation * {
+	padding: 0.25em 0.5em;
+	background: #F9F9F9;
+	-moz-border-radius: 0 0.5em 2em 0.5em;
+	border-radius: 0 0.5em 2em 0.5em;
+	cursor: pointer;
+}
+
+.event-log-navigation .back {
+	float: left;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.event-log-navigation .forward {
+	float: right;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.event-log-navigation .inactive {
+	color: #C9C9C9;
+	cursor: default;
+	text-decoration: none;
+}
+
+#event-log-table tr {
+	margin: 0;
+	padding: 0;
+}
+
+#event-log-table th, #event-log-table td {
+	margin: 0;
+	padding: 0.25ex 1ex;
+	text-align: left;
+	vertical-align: top;
+}
+
+#event-log-table thead tr {
+	background: #F0F0F0;
+	border: 1px solid #E6E6E6;
+}
+
+#event-log-table td {
+	border: 1px solid #F0F0F0;
+}
+
+#event-log-table tbody {
+	border: 1px solid #E6E6E6;
+}
+
+#event-log-table tr.odd {
+	background: #F9F9F9;
+}
+
+#event-log-table tr.even {
+	background: white;
+}
+
+#event-log-table td.id {
+	text-align: right;
+}
+
+#event-log-table th.id {
+	text-align: center;
+}
+
+#event-log-table th.id a {
+	display: block;
+	text-decoration: none;
+	color: black;
+}
+
+#event-log-table th, #event-log-table td.date, #event-log-table td.event {
+	white-space: nowrap;
+}
+
+#event-log-table th.event, #event-log-table td.event {
+	width: 100%;
+}
+
+#event-log-table .guest {
+	font-style: italic;
+}
+
+#event-log-table .removed-account {
+	font-style: italic;
+}
+
+#event-log-table .filtered, #event-log-table .filtered * {
+	text-decoration: underline;
+}
+
+#event-log-table .empty {
+	font-style: italic;
+}
+
+#event-log-table .loading {
+	font-style: italic;
+	text-align: center;
+}
+
+.statistics-section {
+	display: inline;
+	float: left;
+	margin-right: 1.5em;
+}
+
+.statistics-section h3 {
+	margin-bottom: 0.75em;
+}
+
+#after-statistics {
+	clear: both;
+}
+
+.chart, .chart * {
+	cursor: default;
+}
+
+.chart {
+	position: relative;
+	width: 720px;
+	height: 400px;
+	overflow: hidden;
+	border: 1px solid #CCC;
+	line-height: 1em;
+	font-size: 10px;
+	color: #666;
+	background: #FCFCFC;
+	margin: 0 0 1.5em 0;
+}
+
+.bar-chart-graph, .ogive-graph {
+	position: absolute;
+	left: 50px;
+	top: 10px;
+	width: 660px;
+	height: 360px;
+	border-bottom: 1px solid #666;
+	border-left: 1px solid #666;
+}
+
+.chart-line {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 0;
+	border-top: 1px dashed #E0E0E0;
+}
+
+.chart-labels {
+	position: absolute;
+	left: 50px;
+	bottom: 10px;
+	width: 660px;
+	margin-left: 1px;
+}
+
+.chart-values {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: 30px;
+	height: 360px;
+}
+
+.chart-value {
+	position: absolute;
+	right: 0;
+	text-align: right;
+	margin-bottom: -5px;
+}
+
+.chart-label {
+	position: absolute;
+	bottom: 0;
+}
+
+.chart-inner-label {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.bar-chart-column {
+	position: absolute;
+	bottom: 0;
+	height: 100%;
+}
+
+.bar-chart-bar {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.bar-chart-inner-bar {
+	margin: 0 5%;
+	min-width: 1px;
+	height: 100%;
+	background: #DCDCDC;
+	-moz-border-radius: 20% 20% 0 0;
+	border-radius: 20% 20% 0 0;
+}
+
+.bar-chart-column:hover .bar-chart-inner-bar {
+	background: #D6D6D6;
+}
+
+.bar-chart-average-container {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 0;
+	border-top: 1px solid #BCBCBC;
+	color: #999;
+}
+
+.bar-chart-average-container div {
+	float: right;
+	padding: 2px 5px;
+}
+
+.pie-chart-graph {
+	position: absolute;
+	left: 20px;
+	top: 20px;
+}
+
+.pie-chart-legend {
+	position: absolute;
+	right: 20px;
+	top: 70px;
+	border: 1px solid #ACACAC;
+	background: #FEFEFE;
+	margin: 0;
+	padding: 8px 10px;
+	width: 280px;
+	white-space: nowrap;
+}
+
+.pie-chart-legend dt, .pie-chart-legend dd {
+	margin: 0;
+	padding: 0;
+}
+
+.pie-chart-legend dt {
+	float: left;
+	width: 21px;
+	height: 20px;
+}
+
+.pie-chart-legend dt div {
+	width: 14px;
+	height: 14px;
+	border: 1px solid #ACACAC;
+	margin: 2px 0 0 0;
+}
+
+.pie-chart-legend dd {
+	height: 15px;
+	padding: 5px 0 0 0;
+	text-align: right;
+}
+
+.pie-chart-legend dd .label {
+	float: left;
+	text-align: left;
+	width: 180px;
+}
+
+.pie-chart-legend dd .value, .pie-chart-legend dd .percentage {
+	color: #999;
+	width: 35px;
+}
+
+.pie-chart-legend dd .value {
+	float: left;
+	text-align: right;
+}
+
+.pie-chart-legend dd .percentage {
+	float: right;
+}
+
+.ogive .regression-equation {
+	color: #999;
+}
+
+#tag-cloud-slider-container {
+	float: right;
+	background: #FBFBFB;
+	padding: 1ex;
+}
+
+#tag-usage-minimum {
+	float: left;
+	margin: 0 1ex 0 0;
+	font-style: italic;
+}
+
+#tag-cloud-slider-container .dynamic-slider-control {
+	float: left;
+}
+
+.dynamic-slider-control {
+	position: relative;
+	-moz-user-focus: normal;
+	-moz-user-select: none;
+	cursor: default;
+	width: 150px;
+	height: 1.75em;
+}
+
+.dynamic-slider-control * {
+	font-size: 1px;
+}
+
+.dynamic-slider-control input {
+	display: none;
+}
+
+.dynamic-slider-control .handle {
+	position: absolute;
+	-moz-user-select: none;
+	cursor: default;
+	background: #D3D3D3;
+	border: 1px solid;
+	border-color: #F3F3F3 #B3B3B3 #B3B3B3 #F3F3F3;
+	width: 5px;
+}
+
+.dynamic-slider-control .line {
+	behavior: url("../js/slider/boxsizing.htc");
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	position: absolute;
+	overflow: hidden;
+	border: 1px solid;
+	border-color: #A3A3A3 #E3E3E3 #E3E3E3 #A3A3A3;
+	background: #C3C3C3;
+	height: 1px;
+}
+
+.dynamic-slider-control .line div {
+	display: none;
+}
