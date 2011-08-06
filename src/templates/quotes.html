@@ -14,78 +14,7 @@
 Quote Browser
 {% endif %}
 </h2>
-
-<ul class="quote-list">
-
-{% for q in quotes %}
-<li id="quote-{{q.id}}" class="quote unapproved flagged">
-<div class="quote-container">
-    <div class="quote-header" id="quote-header-{{q.id}}">
-
-        
-        <!-- if IS_APPROVED -->
-        <a href="/quotes/{{q.id}}" title="Permanent Link to Quote" class="quote-permalink"><span class="quote-id">#{{q.id}}</span></a>
-        <a href="/quotes/{{q.id}}/votes" rel="nofollow" title="Up Vote" class="quote-rating-up" id="quote-rating-up-{{q.id}}">Up &uarr;</a>
-        <span id="quote-rating-{{q.id}}" class="quote-rating" title="Quote Rating">{{q.rating()}}</span><span
-            class="quote-vote-count" title="Quote Vote Count">/<span id="quote-vote-count-{{q.id}}">{{q.num_votes()}}</span></span>
-                <a href="/quotes/{{q.id}}/votes" rel="nofollow" title="Down Vote" class="quote-rating-down" id="quote-rating-down-{{q.id}}">Down &darr;</a>
-
-                {% if flagged %}
-                <span class="quote-flagged">[Flagged]</span>
-                {% else %}
-                <a href="REPORT_URL" rel="nofollow" title="REPORT_DESCRIPTION" class="quote-report" id="quote-report-{{q.id}}">[Report]</a>
-                {% endif %}
-                <span class="quote-date" title="DATE_DESCRIPTION"></span>
-                <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
-                 {% if isAdmin %}
-                <!-- if allow edit -->
-<!--                 <a href="EDIT_URL" class="quote-edit" title="EDIT_DESCRIPTION"></a> -->
-                <!-- endif allow edit -->
-                <!-- if allow unflag-->
-<!--                 <a href="UNFLAG_URL" class="quote-unflag" title="UNFLAG_DESCRIPTION"></a> -->
-                <!-- endif allow unflag-->
-                <!-- if allow allow remove -->
-                 <a href="REMOVE_URL" id="quote-remove-{{q.id}}" class="quote-remove" title="REMOVE_DESCRIPTION"></a>
-                {% endif %}
-                <!-- endif allow allow remove -->
-        <!-- else 
-                <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
-                <a href="LINK_URL"
-                title="LINK_DESCRIPTION" class="quote-permalink"><span class="quote-id">#ID</span></a>
-                <a href="RATING_UP_URL" rel="nofollow" title="RATING_UP_DESCRIPTION" class="quote-rating-up casted-vote" id="quote-rating-up-{{q.id}}">UP&uarr;</a>
-                <span id="quote-rating-{{q.id}}" class="quote-rating" title="RATING_DESCRIPTION">RATING_TEXT</span>
-                <span class="quote-vote-count" title="VOTE_COUNT_DESCRIPTION">/<span id="quote-vote-count-{{q.id}}">VOTE_COUNT</span></span>
-                <a href="RATING_DOWN_URL" rel="nofollow" title="RATING_DOWN_DESCRIPTION" class="quote-rating-down casted-vote" id="quote-rating-down-{{q.id}}">DOWN&darr;</a>
-                <span class="quote-date" title="DATE_DESCRIPTION">SUBMITTED_TEXT</span>-->
-        <!-- endif -->
-        </div>
-        <blockquote class="quote-body">
-                <pre>{{q.body}}</pre>
-        </blockquote>
-        <!-- if notes or tags tags -->
-        <div class="quote-footer">
-        <!-- if notes-->
-        <!--<div class="quote-notes">
-                <p><em class="quote-notes-title">NOTES_TITLE</em>
-                NOTES
-                </p>
-        </div>-->
-        <!-- endif notes-->
-        <!-- if tags -->
-        <div class="quote-tags">
-                <p><em class="quote-tags-title">TAGS:</em>
-                {% for tag in q.tags %}
-                <a href="/tags/{{tag.tag}}" title="{{tag.tag}}">{{tag.tag}}</a>
-                {% endfor %}
-                </p>
-        </div> 
-        <!-- endif tags -->
-        </div>
-        <!-- endif notes or tags -->
-</div>
-</li>
-{% endfor %}
-</ul>
+{%include 'quotes_content.html' %}
 <div class="quote-browser" id="quote-browser-bottom">
 {% if prev %}
 <a href="/{{page}}?start={{ prev }}" class="prev-page">← Previous Page</a>
