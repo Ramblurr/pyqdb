@@ -19,6 +19,8 @@ navs = [
     nav('/top', 'Top'),
     nav('/quotes', 'Browse'),
     nav('/random', 'Random'),
+    nav('/tags', 'Tags'),
+    nav('/search', 'Search'),
     nav('/quotes/submit', 'Submit')
 ]
 
@@ -58,6 +60,17 @@ def latest():
     quotes = db.latest(incr, start)
     
     return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev)
+
+@app.route('/search')
+def search():
+    incr,start,next,prev = parse_qs(request.args)
+    query = request.args.get('query', None)
+    if not query:
+        return render_template('search.html', nav=navs)
+
+    return render_template('search.html', nav=navs, quotes=db.search(query, incr, start), title="Search Results for '%s'" %(query), next=next, prev=prev, page="search", query=query)
+
+
 
 @app.route('/tags')
 def tags():

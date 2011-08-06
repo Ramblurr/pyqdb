@@ -2,7 +2,7 @@ import datetime
 import json
 from data_models import Quote,Tag,Vote,Voter,quote_tags
 from sql import db_session
-from sqlalchemy import func,desc
+from sqlalchemy import func,desc,or_
 
 
 class IQuoteStore(object):
@@ -18,6 +18,7 @@ class IQuoteStore(object):
     def up_vote(self, id, ip): pass
     def down_vote(self, id, ip): pass
     def count(self): pass
+    def search(self, query, n, start): pass
 
 class SQLQuoteStore(IQuoteStore):
     def connect(self):
@@ -87,6 +88,14 @@ class SQLQuoteStore(IQuoteStore):
 
     def count(self):
         return db_session.query(Quote).count()
+
+    def search(self, query, limit, offset):
+        q = '%' + query + '%'
+        body_like = Quote.body.like(q)
+        tag_like = Tag.tag.like(q)
+        quotes = db_session.query(Quote).join(Quote.tags).filter(or_(tag_like,body_like)).order_by(Quote.id).limit(limit).offset(offset).all()
+        return quotes
+
 
 db = SQLQuoteStore()
 
