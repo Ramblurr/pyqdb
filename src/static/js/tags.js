@@ -1,6 +1,7 @@
 dojo.require("dijit.form.ComboBox");
 dojo.require("dojox.form.MultiComboBox");
 dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("dojo.string");
 
 function TagGetRequest( resource, resultId, loadCallback, errorCallback )
 {

@@ -1,14 +1,15 @@
 {% extends "layout.html" %}
 {% block title %}Welcome{% endblock %}
 {% block content %}
-<p>Filter: <input id="tagsearch"></input> </p>
+<label for="tagsearch">Filter tags:</label>
+<input id="tagsearch"></input>
 <div id="tag-cloud">
 </div>
 <script type="text/javascript">
 function tags_ready(data, tagStore) {
 tc = tag_cloud("tag-cloud",data); 
 onChange = function(tag) {
-    tc.searchAndDisplay('tag-cloud', tag);
+    tc.searchAndDisplay('tag-cloud', dojo.string.trim(tag));
 }
 setup_tagbox2("tagsearch", tagStore, onChange);
 }

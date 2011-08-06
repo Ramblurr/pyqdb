@@ -221,9 +221,11 @@ ul#navigation li a, ul#navigation li a:visited {
 	border-radius: 2.5em;
 	background: white;
 	min-height: 15em;
-	line-height: 1.75em;
 }
 
+#content p, #content ul {
+	line-height: 1.75em;
+}
 ul.quote-list {
 	list-style-type: none;
 	margin: 0 0 1em 0;
