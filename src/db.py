@@ -8,9 +8,10 @@ class IQuoteStore(object):
     def connect(self): pass
     def get(self, id): pass
     def put(self, quote): pass
-    def latest(Self, n): pass
+    def latest(self, n, start): pass
     def up_vote(self, id, ip): pass
     def down_vote(self, id, ip): pass
+    def count(self): pass
 
 class SQLQuoteStore(IQuoteStore):
     def connect(self):
@@ -24,9 +25,8 @@ class SQLQuoteStore(IQuoteStore):
         quote = db_session.query(Quote).filter_by(id=id).first()
         return quote
 
-    def latest(self, n):
-        quotes = db_session.query(Quote).order_by(Quote.id.desc()).limit(n).all()
-        print quotes
+    def latest(self, limit, offset):
+        quotes = db_session.query(Quote).order_by(Quote.id.desc()).limit(limit).offset(offset).all()
         return quotes
 
 
@@ -55,6 +55,9 @@ class SQLQuoteStore(IQuoteStore):
         
     def down_vote(self, id, ip):
         return self._vote(id, ip, 'down')
+
+    def count(self):
+        return db_session.query(Quote).count()
 
 db = SQLQuoteStore()
 

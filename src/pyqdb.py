@@ -42,8 +42,19 @@ def submit():
 
 @app.route('/quotes')
 def latest():
-    return render_template('quotes.html', nav=navs, quotes=db.latest(10))
-    
+    incr = 15
+    start = request.args.get('start', 0, type=int)
+    next = min(start+incr, db.count())
+    prev = max(start-incr, 0)
+    return render_template('quotes.html', nav=navs, quotes=db.latest(incr, start), next=next, prev=prev)
+
+@app.route('/quotes/<int:quote_id>')
+def single(quote_id):
+    quotes = [ db.get(quote_id) ]
+    return render_template('quotes.html', nav=navs, quotes=quotes)
+
+
+
 @app.route('/quotes/<int:quote_id>/votes', methods=['GET', 'PUT'])
 def votes(quote_id):
     ip = request.headers['X-Real-Ip']

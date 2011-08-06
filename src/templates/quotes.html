@@ -2,8 +2,8 @@
 {% block content %}
 <div id="quotes-content">
 <div class="quote-browser" id="quote-browser-top">
-<a class="prev-page">← Previous Page</span>
-<a class="next-page">Next Page →</a>
+<a href="/quotes?start={{ prev }}" class="prev-page">← Previous Page</a>
+<a href="/quotes?start={{ next }}" class="next-page">Next Page →</a>
 </div>
 <h2>
 Quote Browser
@@ -79,8 +79,8 @@ Quote Browser
 {% endfor %}
 </ul>
 <div class="quote-browser" id="quote-browser-bottom">
-<span class="inactive">&larr; Previous Page</span>
-<a>Next Page &rarr;</a>
+<a href="/quotes?start={{ prev }}" class="prev-page">← Previous Page</a>
+<a href="/quotes?start={{ next }}" class="next-page">Next Page →</a>
 </div>
 </div>
 {% endblock %}
