@@ -9,7 +9,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 from data_models import Quote, Tag, QuoteEncoder
 from sql import db_session # yuck, we shouldnt dep on this
 from db import db
-from basic_auth import requires_auth
+from basic_auth import FlaskRealmDigestDB
 
 SECRET_KEY = 'iisasekret'
 DEBUG = True
@@ -29,15 +29,24 @@ navs = [
     nav('/quotes/submit', 'Submit')
 ]
 
+authDB = FlaskRealmDigestDB('MyAuthRealm')
+authDB.add_user('admin', 'test')
 
 @app.route('/')
 def welcome():
     return render_template('index.html', nav=navs)
 
 @app.route('/admin')
-@requires_auth
+@authDB.requires_auth
 def admin():
-    return "Yup."
+    session['user'] = request.authorization.username
+    return "Yup.\n Hello, %s" % (session['user'])
+
+@app.route('/auth')
+def authApi():
+    if not authDB.isAuthenticated(request):
+        return authDB.challenge()
+    return redirect('/')
 
 @app.route('/quotes/submit', methods=['GET', 'POST'])
 def submit():

@@ -1,29 +1,18 @@
 # -*- coding: utf-8 -*-
-# from http://flask.pocoo.org/snippets/8/   
-# by  Armin Ronacher
+# from http://flask.pocoo.org/snippets/31
 
 from functools import wraps
-from flask import request, Response
+import authdigest
+import flask
 
+class FlaskRealmDigestDB(authdigest.RealmDigestDB):
+    def requires_auth(self, f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            request = flask.request
+            if not self.isAuthenticated(request):
+                return self.challenge()
 
-def check_auth(username, password):
-    """This function is called to check if a username /
-    password combination is valid.
-    """
-    return username == 'admin' and password == 'secret'
+            return f(*args, **kwargs)
 
-def authenticate():
-    """Sends a 401 response that enables basic auth"""
-    return Response(
-    'Could not verify your access level for that URL.\n'
-    'You have to login with proper credentials', 401,
-    {'WWW-Authenticate': 'Basic realm="Login Required"'})
-
-def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
-        return f(*args, **kwargs)
-    return decorated
+        return decorated
