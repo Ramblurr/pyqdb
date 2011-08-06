@@ -55,6 +55,9 @@ quote_tags = Table('quote_tags', Base.metadata,
                     Column('quote_id', Integer, ForeignKey('quotes.id')),
                     Column('tag_id', Integer, ForeignKey('tags.id')))
 
+quote_votes = Table('quote_votes', Base.metadata,
+                    Column('quote_id', Integer, ForeignKey('quotes.id')),
+                    Column('vote_id', Integer, ForeignKey('votes.id')))
 
 @unique_constructor(db_session, 
             lambda tag:tag, 
@@ -82,19 +85,48 @@ class Quote(Base):
         self.up_votes = 0
         self.down_votes = 0
 
-    def __repr__(self):
-        return "<Quote('%s', up:%s, down:%s)>" %(self.body, self.up_votes, self.down_votes)
-
     def rating(self):
         return self.up_votes - self.down_votes
 
-    def votes(self):
+    def num_votes(self):
         return self.up_votes + self.down_votes
 
-    def json(self):
-        return json.dumps({'id': self.id, 'up': self.up_votes, 'down': self.down_votes})
     def votes_json(self):
         return json.dumps( { 'up': self.up_votes, 'down': self.down_votes} )
+
+class QuoteEncoder(json.JSONEncoder):
+    ''' a custom JSON encoder for Quote objects '''
+    def default(self, q):
+        if not isinstance(q, Quote):
+            print 'You cannot use the JSON custom encoder for a non-Quote object.'
+            return
+        return {'id': q.id, 'up': q.up_votes, 'down': q.down_votes, 'body': q.body}
+    
+@unique_constructor(db_session, 
+            lambda ip:ip, 
+            lambda query, ip:query.filter(Voter.ip==ip)
+    )
+class Voter(Base):
+    __tablename__ = 'voters'
+    id = Column(Integer, primary_key=True)
+    ip = Column(String, nullable=False, unique=True)
+
+    def __init__(self, ip):
+        self.ip = ip
+
+class Vote(Base):
+    __tablename__ = 'votes'
+    id = Column(Integer, primary_key=True)
+    quote_id = Column(None, ForeignKey('quotes.id'))
+    voter_id = Column(None, ForeignKey('voters.id'))
+    type = Column(String, nullable=False)
+    quote = relationship(Quote, primaryjoin=(quote_id==Quote.id), backref=backref('votes', order_by=id))
+    voter = relationship(Voter, primaryjoin=(voter_id==Voter.id), backref=backref('votes', order_by=id))
+
+    def __init__(self, type):
+        self.type = type
+
+
 
 class no_autoflush(object):
     """Temporarily disable autoflush.

@@ -21,7 +21,7 @@ Quote Browser
         <a href="/quotes/{{q.id}}" title="Permanent Link to Quote" class="quote-permalink"><span class="quote-id">#{{q.id}}</span></a>
         <a href="/quotes/{{q.id}}/votes" rel="nofollow" title="Up Vote" class="quote-rating-up" id="quote-rating-up-{{q.id}}">Up &uarr;</a>
         <span id="quote-rating-{{q.id}}" class="quote-rating" title="Quote Rating">{{q.rating()}}</span><span
-            class="quote-vote-count" title="Quote Vote Count">/<span id="quote-vote-count-{{q.id}}">{{q.votes()}}</span></span>
+            class="quote-vote-count" title="Quote Vote Count">/<span id="quote-vote-count-{{q.id}}">{{q.num_votes()}}</span></span>
                 <a href="/quotes/{{q.id}}/votes" rel="nofollow" title="Down Vote" class="quote-rating-down" id="quote-rating-down-{{q.id}}">Down &darr;</a>
 
                 <!-- if flagged -->

@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 
+import json
 import string
 
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-from data_models import Quote, Tag
+from data_models import Quote, Tag, QuoteEncoder
 from sql import db_session # yuck, we shouldnt dep on this
 from db import db
 
@@ -45,16 +46,16 @@ def latest():
     
 @app.route('/quotes/<int:quote_id>/votes', methods=['GET', 'PUT'])
 def votes(quote_id):
+    ip = request.headers['X-Real-Ip']
     quote = db.get(quote_id)
     if request.method == 'GET':
         return quote.votes_json()
     elif request.method == 'PUT':
         type = request.form['type']
         if type == "up":
-            db.up_vote(quote_id)
-        else:
-            db.down_vote(quote_id)
-        return quote.json() 
+            return json.dumps(db.up_vote(quote_id, ip), cls=QuoteEncoder)
+        elif type == "down":
+            return json.dumps(db.down_vote(quote_id, ip), cls=QuoteEncoder)
 
 @app.teardown_request
 def shutdown_session(exception=None):
