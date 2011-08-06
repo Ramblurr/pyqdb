@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}VT Bash{% endblock %}
 {% block content %}
-<h2>{{ title }}</h2>
-<div id="message">
+{% for category, msg in get_flashed_messages(with_categories=true) %}
+<div id="message" class="{{category}}">
     <p>{{msg}}</p>
 </div>
+{% endfor %}
 {% endblock %}

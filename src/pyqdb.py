@@ -10,7 +10,11 @@ from data_models import Quote, Tag, QuoteEncoder
 from sql import db_session # yuck, we shouldnt dep on this
 from db import db
 
+SECRET_KEY = 'iisasekret'
+DEBUG = True
+
 app = Flask(__name__)
+app.config.from_object(__name__)
 
 def nav(url, name):
     return {'url': url, 'name': name}
@@ -32,13 +36,28 @@ def welcome():
 @app.route('/quotes/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
-        quote = Quote(request.form['quote'])
-        quote.tags = map(Tag, map(string.strip, request.form['tags'].split(',')))
-        db.put(quote)
+        ip = request.headers['X-Real-Ip']
+        content = request.form['quote']
+        tags_raw = request.form['tags'] 
+        tags = []
+        error = False
+        if len(tags_raw) > 100:
+            flash('Error: Tags too big', 'error')
+            error = True
+        else:
+            tags = map(string.strip, tags_raw.split(','))
 
-        title = "Quote Submitted"
-        msg = "Thank you for submitting a quote to our database. An administrator will review it shortly. If it gets approved, it will appear soon. Fingers crossed!"
-        return render_template('message.html', nav=navs, msg=msg, title=title)
+        if len(content) > 10*1024: # 10kb
+            flash('Error: Quote too big', 'error')
+            error = True
+
+        if not error:
+            quote = Quote(content, ip)
+            quote.tags = map(Tag, tags)
+            db.put(quote)
+            flash('Quote Submited. Thanks!', 'success')
+
+        return render_template('message.html', nav=navs)
     else:
         return render_template('submit.html', nav=navs)
 
@@ -118,5 +137,4 @@ def shutdown_session(exception=None):
     db_session.remove()
 
 if __name__ == '__main__':
-    app.debug = True
     app.run(port=8080)
