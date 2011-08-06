@@ -10,6 +10,7 @@ from data_models import Quote, Tag, QuoteEncoder
 from sql import db_session # yuck, we shouldnt dep on this
 from db import db
 from basic_auth import FlaskRealmDigestDB
+from news import News
 
 SECRET_KEY = 'iisasekret'
 DEBUG = True
@@ -34,7 +35,8 @@ authDB.add_user('admin', 'test')
 
 @app.route('/')
 def welcome():
-    return render_template('index.html', nav=navs)
+    news = News()
+    return render_template('index.html', nav=navs, news=news.news)
 
 @app.route('/admin')
 @authDB.requires_auth

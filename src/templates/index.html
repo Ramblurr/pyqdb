@@ -20,14 +20,16 @@
                 <h2 id="news-title">Latest News
                 </h2>
                 <ul id="news-list">
+                        {% for n in news %}
                         <li>
-                                <div class="news-text">Finals week is here, but we're dicking around on vtbash.</div>
-                                <p class="news-footer">&mdash;<span id="author">rmblr</span>,
-                                    <span id="date">Sun May  8 15:26:07 EDT 2011</span>
+                            <div class="news-text">{{n.body}}</div>
+                            <p class="news-footer">&mdash;<span id="author">rmblr</span>,
+                            <span id="date">{{n.date}}</span>
 <!--                                     <a class="news-edit">edit</a> -->
 <!--                                     <a class="news-remove">remove</a> -->
                                 </p>
                         </li>
+                        {% endfor %}
                 </ul>
         </div>
 </div>
