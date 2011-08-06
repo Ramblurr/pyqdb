@@ -2,8 +2,10 @@
 {% block content %}
 <div id="quotes-content">
 <div class="quote-browser" id="quote-browser-top">
+{% if next %}
 <a href="/{{page}}?start={{ prev }}" class="prev-page">← Previous Page</a>
 <a href="/{{page}}?start={{ next }}" class="next-page">Next Page →</a>
+{% endif %}
 </div>
 <h2>
 Quote Browser
@@ -24,13 +26,14 @@ Quote Browser
             class="quote-vote-count" title="Quote Vote Count">/<span id="quote-vote-count-{{q.id}}">{{q.num_votes()}}</span></span>
                 <a href="/quotes/{{q.id}}/votes" rel="nofollow" title="Down Vote" class="quote-rating-down" id="quote-rating-down-{{q.id}}">Down &darr;</a>
 
-                <!-- if flagged -->
+                {% if flagged %}
                 <span class="quote-flagged">[Flagged]</span>
-                <!-- else-->
+                {% else %}
                 <a href="REPORT_URL" rel="nofollow" title="REPORT_DESCRIPTION" class="quote-report" id="quote-report-{{q.id}}">[Report]</a>
-                <!-- end if flagged-->
+                {% endif %}
                 <span class="quote-date" title="DATE_DESCRIPTION"></span>
                 <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
+                 {% if isAdmin %}
                 <!-- if allow edit -->
 <!--                 <a href="EDIT_URL" class="quote-edit" title="EDIT_DESCRIPTION"></a> -->
                 <!-- endif allow edit -->
@@ -39,6 +42,7 @@ Quote Browser
                 <!-- endif allow unflag-->
                 <!-- if allow allow remove -->
                  <a href="REMOVE_URL" id="quote-remove-{{q.id}}" class="quote-remove" title="REMOVE_DESCRIPTION"></a>
+                {% endif %}
                 <!-- endif allow allow remove -->
         <!-- else 
                 <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
@@ -67,7 +71,7 @@ Quote Browser
         <div class="quote-tags">
                 <p><em class="quote-tags-title">TAGS:</em>
                 {% for tag in q.tags %}
-                <a href="URL" title="LINK_DESCRIPTION">{{tag.tag}}</a>
+                <a href="/quotes?tag={{tag.tag}}" title="{{tag.tag}}">{{tag.tag}}</a>
                 {% endfor %}
                 </p>
         </div> 
@@ -79,8 +83,10 @@ Quote Browser
 {% endfor %}
 </ul>
 <div class="quote-browser" id="quote-browser-bottom">
+{% if prev %}
 <a href="/{{page}}?start={{ prev }}" class="prev-page">← Previous Page</a>
 <a href="/{{page}}?start={{ next }}" class="next-page">Next Page →</a>
+{%endif%}
 </div>
 </div>
 {% endblock %}
