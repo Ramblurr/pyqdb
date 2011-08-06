@@ -9,6 +9,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 from data_models import Quote, Tag, QuoteEncoder
 from sql import db_session # yuck, we shouldnt dep on this
 from db import db
+from basic_auth import requires_auth
 
 SECRET_KEY = 'iisasekret'
 DEBUG = True
@@ -32,6 +33,11 @@ navs = [
 @app.route('/')
 def welcome():
     return render_template('index.html', nav=navs)
+
+@app.route('/admin')
+@requires_auth
+def admin():
+    return "Yup."
 
 @app.route('/quotes/submit', methods=['GET', 'POST'])
 def submit():
