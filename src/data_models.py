@@ -1,6 +1,8 @@
 import json
+from datetime import datetime
+from dateutil import tz
 from sqlalchemy import MetaData, Column, Table, ForeignKey
-from sqlalchemy import Integer, String
+from sqlalchemy import Integer, String, DateTime
 from sqlalchemy.orm import relationship, backref
 
 from sql import db_session,Base
@@ -75,15 +77,19 @@ class Quote(Base):
     __tablename__ = 'quotes'
 
     id = Column(Integer, primary_key=True)
-    body = Column(String)
+    body = Column(String, nullable=False)
     tags = relationship(Tag, secondary=quote_tags, backref="quotes")
-    up_votes = Column(Integer)
-    down_votes = Column(Integer)
+    up_votes = Column(Integer, nullable=False)
+    down_votes = Column(Integer, nullable=False)
+    created = Column(DateTime, nullable=False)
+    created_by = Column(String)
 
-    def __init__(self, body):
+    def __init__(self, body, author = None):
         self.body = body
         self.up_votes = 0
         self.down_votes = 0
+        self.created_by = author
+        self.created = datetime.utcnow()
 
     def rating(self):
         return self.up_votes - self.down_votes
@@ -93,6 +99,13 @@ class Quote(Base):
 
     def votes_json(self):
         return json.dumps( { 'up': self.up_votes, 'down': self.down_votes} )
+
+    def created_local(self):
+        from_zone = tz.gettz('UTC')
+        to_zone = tz.gettz('America/New_York')
+        utc = self.created.replace(tzinfo=from_zone)
+        return utc.astimezone(to_zone)
+
 
 class QuoteEncoder(json.JSONEncoder):
     ''' a custom JSON encoder for Quote objects '''

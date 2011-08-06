@@ -18,7 +18,7 @@
                 {% else %}
                 <a href="REPORT_URL" rel="nofollow" title="REPORT_DESCRIPTION" class="quote-report" id="quote-report-{{q.id}}">[Report]</a>
                 {% endif %}
-                <span class="quote-date" title="DATE_DESCRIPTION"></span>
+                <span class="quote-date" title="Submission Date">{{q.created_local().strftime("%Y-%m-%d %H:%M %Z")}}</span>
                 <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
                  {% if isAdmin %}
                 <!-- if allow edit -->
