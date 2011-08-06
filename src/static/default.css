@@ -1105,3 +1105,34 @@ ul.tabbed-pane-contents > li {
 .dynamic-slider-control .line div {
 	display: none;
 }
+
+/* CUSTOM TAG CLOUD */
+div#tag-cloud {
+  width: 250px;
+}
+.tagcloud-list {
+  font-size: 100%;
+  font-weight: bold;
+  font-family: Arial, sans-self;
+  padding: 2px;
+  margin: 10px;
+}
+.tagcloud-base {
+  font-size: 24px;
+  display: inline;
+}
+.tagcloud-anchor {
+  text-decoration: none;
+}
+.tagcloud-ealiest {
+  color: #ccc;
+}
+.tagcloud-earlier {
+  color: #99c;
+}
+.tagcloud-later {
+  color: #99f;
+}
+.tagcloud-latest {
+  color: #00f;
+}

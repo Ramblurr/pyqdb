@@ -24,8 +24,13 @@ Submit Quote
             <textarea name="quote" id="quote-field" rows="8" cols="80"></textarea>
     </div>
     <div id="tags-container">
-            <label for="tags-field">Enter descriptive tags for the quote to aid searching:</label>
-            <input type="text" name="tags" value="" id="tags-field" />
+<script type="text/javascript">
+function tags_ready(data, tagStore) {
+//setup_tagbox("tags-input", tagStore);
+}
+</script>
+            <label for="tags-input">Enter descriptive tags for the quote to aid searching:</label>
+            <input id="tags-input" name="tags" ></input>
     </div>
     <div id="submit-container">
             <input type="submit" id="submit-button" />

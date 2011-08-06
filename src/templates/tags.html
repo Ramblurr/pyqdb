@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+<p>Filter: <input id="tagsearch"></input> </p>
+<div id="tag-cloud">
+</div>
+<script type="text/javascript">
+function tags_ready(data, tagStore) {
+tc = tag_cloud("tag-cloud",data); 
+onChange = function(tag) {
+    tc.searchAndDisplay('tag-cloud', tag);
+}
+setup_tagbox2("tagsearch", tagStore, onChange);
+}
+</script>
+{% endblock %}

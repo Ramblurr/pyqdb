@@ -40,20 +40,42 @@ def submit():
     else:
         return render_template('submit.html', nav=navs)
 
+def parse_qs(args, tag = None):
+    incr = 15
+    start = args.get('start', 0, type=int)
+    if tag:
+        count = db.tag_count(tag)
+    else:
+        count = db.count()
+    next = min(start+incr, count)
+    prev = max(start-incr, 0)
+    return (15, start, next, prev )
+
+
 @app.route('/quotes')
 def latest():
-    incr = 15
-    start = request.args.get('start', 0, type=int)
-    next = min(start+incr, db.count())
-    prev = max(start-incr, 0)
-    return render_template('quotes.html', nav=navs, quotes=db.latest(incr, start), page='quotes',next=next, prev=prev)
+    incr,start,next,prev = parse_qs(request.args)
+    quotes = db.latest(incr, start)
+    
+    return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev)
+
+@app.route('/tags')
+def tags():
+    format = request.args.get('format', 'html')
+    if format == 'json':
+        return json.dumps( db.tags() )
+    return render_template('tags.html', nav=navs)
+
+@app.route('/tags/<string:tag>')
+def tag(tag):
+    incr,start,next,prev = parse_qs(request.args, tag)
+    quotes = db.tag(tag, incr, start)
+    page = 'tags/%s' % (tag)
+    return render_template('quotes.html', nav=navs, quotes=quotes, page=page, next=next, prev=prev, title="Quotes Tagged '%s'" %(tag))
 
 @app.route('/top')
 def top():
-    incr = 15
-    start = request.args.get('start', 0, type=int)
-    next = min(start+incr, db.count())
-    prev = max(start-incr, 0)
+    incr,start,next,prev = parse_qs(request.args)
     return render_template('quotes.html', nav=navs, quotes=db.top(incr, start), page='top', next=next, prev=prev)
 
 @app.route('/random')
@@ -64,7 +86,6 @@ def random():
 def single(quote_id):
     quotes = [ db.get(quote_id) ]
     return render_template('quotes.html', nav=navs, quotes=quotes)
-
 
 @app.route('/quotes/<int:quote_id>/votes', methods=['GET', 'PUT'])
 def votes(quote_id):

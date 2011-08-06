@@ -1,6 +1,6 @@
 import datetime
 import json
-from data_models import Quote,Tag,Vote,Voter
+from data_models import Quote,Tag,Vote,Voter,quote_tags
 from sql import db_session
 from sqlalchemy import func,desc
 
@@ -12,6 +12,9 @@ class IQuoteStore(object):
     def latest(self, n, start): pass
     def top(self, n, start): pass
     def random(self, n): pass
+    def tags(self): pass
+    def tag(self, tag, n, start): pass
+    def tag_count(self, tag): pass
     def up_vote(self, id, ip): pass
     def down_vote(self, id, ip): pass
     def count(self): pass
@@ -40,6 +43,21 @@ class SQLQuoteStore(IQuoteStore):
     def random(self, limit):
         quotes = db_session.query(Quote).order_by(func.random()).limit(limit)
         return quotes
+
+    def tags(self):
+        tags = db_session.query(Tag).order_by(Tag.tag).all()
+        tags_count = []
+        for t in tags:
+            tags_count.append( { 'tag': t.tag, 'count': db_session.query((quote_tags.c.tag_id).label('tag')).filter('tag == %s' %(t.id)).count()} )
+        return tags_count
+
+    def tag(self, tag, limit, offset):
+        quotes = db_session.query(Quote).join(Quote.tags).filter(Quote.tags.contains(Tag(tag))).order_by(Quote.id.desc()).limit(limit).offset(offset).all()
+        return quotes
+    
+    def tag_count(self, tag):
+        return db_session.query(Quote).join(Quote.tags).filter(Quote.tags.contains(Tag(tag))).count()
+        
 
     def _vote(self, id, ip, type):
         quote = self.get(id)
