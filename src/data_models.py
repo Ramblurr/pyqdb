@@ -107,14 +107,6 @@ class Quote(Base):
         return utc.astimezone(to_zone)
 
 
-class QuoteEncoder(json.JSONEncoder):
-    ''' a custom JSON encoder for Quote objects '''
-    def default(self, q):
-        if not isinstance(q, Quote):
-            print 'You cannot use the JSON custom encoder for a non-Quote object.'
-            return
-        return {'id': q.id, 'up': q.up_votes, 'down': q.down_votes, 'body': q.body}
-    
 @unique_constructor(db_session, 
             lambda ip:ip, 
             lambda query, ip:query.filter(Voter.ip==ip)
