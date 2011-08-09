@@ -2,16 +2,22 @@
 # -*- coding: utf-8 -*-
 
 
-from jsonify import jsonify
 import string
 
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, make_response
-from data_models import Quote, Tag, QuoteEncoder
-from sql import db_session # yuck, we shouldnt dep on this
+# flask includes
+from flask import Flask, request, session, g, \
+                  redirect, url_for, abort, render_template, \
+                  flash, make_response
+
+# local includes
+from data_models import Quote, Tag
+from jsonify import jsonify
 from db import db
+from sql import db_session # yuck, we shouldnt dep on this
 from basic_auth import FlaskRealmDigestDB
 from news import News
 
+# app config 
 SECRET_KEY = 'CHANGEME'
 DEBUG = True
 
