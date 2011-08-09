@@ -68,6 +68,8 @@ quote_votes = Table('quote_votes', Base.metadata,
 class Tag(Base):
     mimetype = 'application/vnd.pyqdb-tag'
     json_mimetype = mimetype+'+json'
+    list_mimetype= 'application/vnd.pyqdb-tags'
+    list_json_mimetype = list_mimetype+'+json'
 
     __tablename__ = 'tags'
 
@@ -79,6 +81,9 @@ class Tag(Base):
 class Quote(Base):
     mimetype = 'application/vnd.pyqdb-quote'
     json_mimetype = mimetype+'+json'
+    list_mimetype= 'application/vnd.pyqdb-quotes'
+    list_json_mimetype = list_mimetype+'+json'
+
 
     __tablename__ = 'quotes'
 
@@ -126,6 +131,8 @@ class Voter(Base):
         self.ip = ip
 
 class Vote(Base):
+    mimetype = 'application/vnd.pyqdb-vote'
+    json_mimetype = mimetype+'+json'
     __tablename__ = 'votes'
     id = Column(Integer, primary_key=True)
     quote_id = Column(None, ForeignKey('quotes.id'))

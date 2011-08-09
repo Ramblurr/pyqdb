@@ -14,7 +14,7 @@ class QuoteEncoder(json.JSONEncoder):
     ''' a custom JSON encoder for Quote objects '''
     def default(self, q):
         if isinstance(q, Quote):
-            return { 'mimetype': Quote.mimetype+'+json', 
+            return { 'mimetype': Quote.json_mimetype, 
                      'id': q.id,
                      'up': q.up_votes,
                      'down': q.down_votes,
@@ -22,12 +22,13 @@ class QuoteEncoder(json.JSONEncoder):
                      'tags': q.tags, 
                      'links': [
                                 { 'rel': 'self', 'href': '/quotes/%s' %(q.id) },
-                                { 'rel': 'vote', 'href': '/quotes/%s/votes' %(q.id) },
+                                { 'rel': 'pyqdb/quote/cast-vote', 'href': '/quotes/%s/votes' %(q.id) },
                          #{ 'rel': 'report', 'href': '/quotes/%s/votes' %(q.id) },
                               ],
                      'created': q.created }
         elif isinstance(q, Tag):
             return { 'id': q.id,
+                     'mimetype': Tag.json_mimetype,
                      'tag': q.tag,
                      'links': [ { 'rel': 'self', 'href': '/quotes/tags/%s' % (q.tag) } ] }
         elif isinstance(q, (datetime.datetime, datetime.date)):
@@ -54,5 +55,5 @@ class QuoteDecoder(json.JSONDecoder):
         else:
             return json.JSONDecoder.default(self, json_obj)
 
-def jsonify(data):
-    return Response(json.dumps(data, cls=QuoteEncoder), mimetype="application/json")
+def jsonify(data, mimetype):
+    return Response(json.dumps(data, cls=QuoteEncoder), mimetype=mimetype)

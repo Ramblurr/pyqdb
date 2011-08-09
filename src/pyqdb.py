@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import string
 
 # flask includes
@@ -10,13 +9,14 @@ from flask import Flask, request, session, g, \
                   flash, make_response
 
 # local includes
-from data_models import Quote, Tag
+from data_models import Quote, Tag, Vote
 from jsonify import jsonify
 import flask_override
 from db import db
 from sql import db_session # yuck, we shouldnt dep on this
 from basic_auth import FlaskRealmDigestDB
 from news import News
+from rest import build_link, add_loc_hdr, add_link_hdr
 
 # app config 
 SECRET_KEY = 'CHANGEME'
@@ -26,49 +26,28 @@ app = Flask(__name__)
 app.request_class = flask_override.Request
 app.config.from_object(__name__)
 
-# convenience functions
-def nav(href, title):
-    nav_keys = ('href', 'title')
-    return dict(zip(nav_keys, (href, title))) 
-
-def json_nyi():
-    json_error = {'error': 'nyi', 'error_msg': 'search not yet implemented'}
-    rs = jsonify(json_error)
-    rs.status_code = 501
-    return rs
-
 navs = [
-    nav('/top', 'Top'),
-    nav('/quotes', 'Browse'),
-    nav('/random', 'Random'),
-    nav('/tags', 'Tags'),
-    nav('/search', 'Search'),
-    nav('/quotes/new', 'Submit')
+    build_link('/top', 'pyqdb/quotes', Quote.list_json_mimetype, title='Top'),
+    build_link('/quotes', 'pyqdb/quotes', Quote.list_json_mimetype, title='Browse'),
+    build_link('/random', 'pyqdb/quotes', Quote.list_json_mimetype, title='Random'),
+    build_link('/tags', 'pyqdb/tags', Tag.list_json_mimetype, title='Tags'),
+    build_link('/search', '', 'application/json', title='Search'),
+    build_link('/quotes/new', 'pyqdb/quote/new', Quote.json_mimetype, title='Submit')
 ]
 
 authDB = FlaskRealmDigestDB('MyAuthRealm')
 authDB.add_user('admin', 'test')
 
-def add_loc_hdr(rs, loc):
-    rs.headers.add( 'Location', loc )
-
-def add_link_hdr(rs, link, rel):
-    stub =  '<%s>; rel="%s"' % (link, rel)
-    if 'Link' in rs.headers:
-        rs.headers['Link'] += ', %s' %(stub) 
-    else:
-        rs.headers.add( 'Link', stub)
-
 ## Routes and Handlers ##
 @app.route('/')
 def welcome():
     if request.wants_json():
-        for nav in navs: nav['rel'] = 'child-resource'
+        links = navs
+        links.append(build_link('/', 'self', 'application/json'))
         root = { 'version': '0.1',
                  'title': 'VT Bash',
-                 'link': { 'href': '/', 'rel': 'self' },
-                 'resources' : [ navs ] }
-        return jsonify(root)
+                 'links': links }
+        return jsonify(root, 'application/json')
     news = News()
     return render_template('index.html', nav=navs, news=news.news)
 
@@ -87,8 +66,8 @@ def authApi():
 @app.route('/quotes/new', methods=['GET'])
 def new_quote():
     if request.wants_json():
-        rs = jsonify({'body': "Quote here", 'tags': [], 'link': {'href':'/quotes', 'method':'post', 'rel': 'submit'}})
-        add_link_hdr(rs, '/quotes', 'submit')
+        rs = jsonify({'body': "Quote here", 'tags': [], 'link': build_link('/quotes', 'pyqdb/quote/new', Quote.json_mimetype, method='post', title='Create a new quote')}, Quote.json_mimetype)
+        add_link_hdr(rs, '/quotes', 'pyqdb/quote/new')
         return rs
     return render_template('submit.html', nav=navs)
 
@@ -161,14 +140,13 @@ def create_quote_resp_json(quote, body_valid, tags_valid):
     if not tags_valid:
         error['error_msg'] += 'Tags too large'
     if not body_valid or not tags_valid:
-        rs = jsonify(error)
+        rs = jsonify(error, 'application/vnd.pyqdb-error+json')
         rs.status_code = 413
         return rs
      
-    rs = jsonify(quote)
+    rs = jsonify(quote, Quote.json_mimetype)
     add_loc_hdr(rs, '/quotes/%s' % (quote.id))
     rs.status_code = 201
-    rs.headers['Content-Type'] = Quote.json_mimetype
     return rs 
 
 def create_quote_resp_html(quote, body_valid, tags_valid): 
@@ -200,12 +178,16 @@ def latest():
     incr,start,next,prev = parse_qs(request.args)
     quotes = db.latest(incr, start)
     if request.wants_json():
-        rs = jsonify(quotes)
         next_link = '/quotes?start=%s' % (next)
         prev_link = '/quotes?start=%s' % (prev)
-        add_link_hdr(rs, next_link, 'next')
+        json = {'quotes': quotes, 'links': [ 
+            build_link(next_link, 'pyqdb/quotes/next', Quote.list_json_mimetype),
+            build_link(prev_link, 'pyqdb/quotes/prev', Quote.list_json_mimetype) ]
+        }
+        rs = jsonify(json, Quote.list_json_mimetype)
+        add_link_hdr(rs, next_link, 'pyqdb/quotes/next')
         if start > 0:
-            add_link_hdr(rs, prev_link, 'prev')
+            add_link_hdr(rs, prev_link, 'pyqdb/quotes/prev')
         return rs
     return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev)
 
@@ -227,7 +209,7 @@ def search():
 def tags():
     format = request.args.get('format', 'html')
     if request.wants_json():
-        return jsonify( db.tags() )
+        return jsonify( db.tags(), Tag.list_json_mimetype )
     return render_template('tags.html', nav=navs)
 
 @app.route('/tags/<string:tag>')
@@ -273,10 +255,12 @@ def cast_vote(quote_id):
         type = request.form['type']
 
     if type == "up":
-        return jsonify(db.up_vote(quote_id, ip))
+        quote = db.up_vote(quote_id, ip)
     elif type == "down":
-        return jsonify(db.down_vote(quote_id, ip))
-    abort(400)
+        quote = db.down_vote(quote_id, ip)
+    else:
+        abort(400)
+    return jsonify(quote, Quote.json_mimetype)
 
 
 @app.route('/quotes/<int:quote_id>/votes')
@@ -284,7 +268,13 @@ def fetch_votes(quote_id):
     quote = db.get(quote_id)
     if quote is None:
         abort(404)
-    return quote.votes_json()
+    json = { 'links': [ 
+                        build_link('/quotes/%s' %(quote_id), 'pyqdb/quote', Quote.json_mimetype),
+                        build_link('/quotes/%s/votes' %(quote_id), 'pyqdb/quote/cast-vote', Vote.json_mimetype, method='put') ],
+              'type': '', # up or down
+              'id': quote_id
+    }
+    return jsonify(json, Vote.json_mimetype)
 
 @app.teardown_request
 def shutdown_session(exception=None):
