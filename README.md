@@ -58,7 +58,18 @@ You can see above that pyqdb also embeds link information into the JSON using th
 
 pyqdb uses relative URIs wherever possible.
 
-TODO: custom mimetypes
+**Mimetype formats**
+
+* `application/vnd.pyqdb-quote` - A quote
+* `application/vnd.pyqdb-quotes` - A list of quotes
+* `application/vnd.pyqdb-tag` - A tag 
+* `application/vnd.pyqdb-tags` - A list of tags 
+
+Most of the time mimetypes will have a `+format` suffix indicating which format the data is in. For example ths is a JSON formatted quote:
+
+    application/vnd.pyqdb-quote+json
+
+Currently only the `json` format is supported.
 
 [linkhdr]: http://www.w3.org/Protocols/9707-link-header.html
 
