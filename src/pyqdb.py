@@ -125,6 +125,13 @@ def parse_qs(args, tag = None):
 def latest():
     incr,start,next,prev = parse_qs(request.args)
     quotes = db.latest(incr, start)
+    if request_wants_json():
+        rs = jsonify(quotes)
+        next_link = '/quotes?start=%s' % (next)
+        prev_link = '/quotes?start=%s' % (prev)
+        add_link_hdr(rs, next_link, 'next')
+        add_link_hdr(rs, prev_link, 'prev')
+        return rs
     return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev)
 
 @app.route('/search')
