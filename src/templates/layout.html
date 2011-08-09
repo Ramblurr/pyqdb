@@ -19,7 +19,7 @@
     <h1 id="title"><a href="/">{% block title %}VT Bash{% endblock %}</a></h1>
 <ul id="navigation">
     {% for item in nav %}
-    <li class="nav-item"><a href="{{item.url}}">{{item.name}}</a></li>
+    <li class="nav-item"><a href="{{item.href}}">{{item.title}}</a></li>
     {% endfor %}
 </ul>
 </div>

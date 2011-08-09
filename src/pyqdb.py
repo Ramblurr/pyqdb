@@ -25,9 +25,9 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 # convenience function
-def nav(url, name):
-    nav_keys = ('url', 'name')
-    return dict(zip(nav_keys, (url, name))) 
+def nav(href, title):
+    nav_keys = ('href', 'title')
+    return dict(zip(nav_keys, (href, title))) 
 
 navs = [
     nav('/top', 'Top'),
@@ -58,6 +58,13 @@ def add_link_hdr(rs, link, rel):
 ## Routes and Handlers ##
 @app.route('/')
 def welcome():
+    if request_wants_json():
+        for nav in navs: nav['rel'] = 'child-resource'
+        root = { 'version': '0.1',
+                 'title': 'VT Bash',
+                 'link': { 'href': '/', 'rel': 'self' },
+                 'resources' : [ navs ] }
+        return jsonify(root)
     news = News()
     return render_template('index.html', nav=navs, news=news.news)
 
