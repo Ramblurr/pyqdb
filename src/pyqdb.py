@@ -222,12 +222,11 @@ def search():
     return render_template('search.html', nav=navs, quotes=db.search(query, incr, start), title="Search Results for '%s'" %(query), next=next, prev=prev, page="search", query=query)
 
 
-
 @app.route('/tags')
 def tags():
     format = request.args.get('format', 'html')
-    if format == 'json':
-        return json.dumps( db.tags() )
+    if request.wants_json():
+        return jsonify( db.tags() )
     return render_template('tags.html', nav=navs)
 
 @app.route('/tags/<string:tag>')

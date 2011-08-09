@@ -9,6 +9,7 @@ function TagGetRequest( resource, resultId, loadCallback, errorCallback )
     dojo.xhrGet({
         url: resource,
         handleAs: "json",
+        headers: { "Accept": "application/vnd.pyqdb-tag+json" },
         load: function (data) { loadCallback(resultId, data); },
         error: function (data) { errorCallback(resultId, data); }
     });
@@ -66,7 +67,7 @@ function fetch_result(id, data)
 }
 
 dojo.ready(function(){
-    var resource = "/tags?format=json";
+    var resource = "/tags";
     var id = "tag-cloud";
     new TagGetRequest(resource, id, fetch_result, error_result);
 });
