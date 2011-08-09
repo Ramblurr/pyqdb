@@ -58,18 +58,60 @@ You can see above that pyqdb also embeds link information into the JSON using th
 
 pyqdb uses relative URIs wherever possible.
 
-**Mimetype formats**
+**Link Relations**
 
-* `application/vnd.pyqdb-quote` - A quote
-* `application/vnd.pyqdb-quotes` - A list of quotes
-* `application/vnd.pyqdb-tag` - A tag 
-* `application/vnd.pyqdb-tags` - A list of tags 
+`self` 
+The href of a link with this relation refers to the containing resource.
+
+`pyqdb/quote`
+The href of a link with this relation can be used to fetch a quote resource.
+
+`pyqdb/quote/new`
+The href of a link with this relation can be used to create a quote resource.
+
+`pyqdb/quote/cast-vote`
+The href of a link with this relation can be used to cast a vote on a quote.
+
+`pyqdb/quotes`
+The href of a link with this relation can be used to fetch a list of quotes.
+
+`pyqdb/quotes/next`
+`pyqdb/quotes/prev`
+The href of a link with these relations can be used to fetch the next or previous page of results.
+
+`pyqdb/tag`
+The href of a link with this relation can be used to fetch a quote resource.
+
+`pyqdb/tags`
+The href of a link with this relation can be used to fetch a list of tags.
+
+**Media Types**
+
+`application/vnd.pyqdb-quote`
+A representation of this media type contains a quote document.
+
+`application/vnd.pyqdb-quotes`
+A representation of this media type contains a list of quote documents.
+
+`application/vnd.pyqdb-tag` 
+A representation of this media type contains a tag document.
+
+`application/vnd.pyqdb-tags` 
+A representation of this media type contains a list of tag documents.
+
+`application/vnd.pyqdb-vote`
+A representation of this media type contains a vote.
+
+`application/vnd.pyqdb-error`
+A representation of this media type contains an error.
 
 Most of the time mimetypes will have a `+format` suffix indicating which format the data is in. For example ths is a JSON formatted quote:
 
     application/vnd.pyqdb-quote+json
 
 Currently only the `json` format is supported.
+
+
 
 [linkhdr]: http://www.w3.org/Protocols/9707-link-header.html
 
