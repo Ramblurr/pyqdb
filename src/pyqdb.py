@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-import json
+from jsonify import jsonify
 import string
 
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, make_response
 from data_models import Quote, Tag, QuoteEncoder
 from sql import db_session # yuck, we shouldnt dep on this
 from db import db
@@ -29,12 +29,27 @@ navs = [
     nav('/random', 'Random'),
     nav('/tags', 'Tags'),
     nav('/search', 'Search'),
-    nav('/quotes/submit', 'Submit')
+    nav('/quotes/new', 'Submit')
 ]
 
 authDB = FlaskRealmDigestDB('MyAuthRealm')
 authDB.add_user('admin', 'test')
 
+# snippet from http://flask.pocoo.org/snippets/45/
+def request_wants_json():
+    best = request.accept_mimetypes \
+        .best_match(['application/json', 'text/html'])
+    return best == 'application/json' and \
+        request.accept_mimetypes[best] > \
+        request.accept_mimetypes['text/html']
+
+def add_loc_hdr(rs, loc):
+    rs.headers.add( 'Location', loc )
+
+def add_link_hdr(rs, link, rel):
+    rs.headers.add( 'Link', '<%s>; rel="%s"' % (link, rel) )
+
+## Routes and Handlers ##
 @app.route('/')
 def welcome():
     news = News()
@@ -52,34 +67,45 @@ def authApi():
         return authDB.challenge()
     return redirect('/')
 
-@app.route('/quotes/submit', methods=['GET', 'POST'])
-def submit():
-    if request.method == 'POST':
-        ip = request.headers['X-Real-Ip']
-        content = request.form['quote']
-        tags_raw = request.form['tags'] 
-        tags = []
-        error = False
-        if len(tags_raw) > 100:
-            flash('Error: Tags too big', 'error')
-            error = True
-        else:
-            tags = map(string.strip, tags_raw.split(','))
+@app.route('/quotes/new', methods=['GET'])
+def new_quote():
+    if request_wants_json():
+        rs = make_response(jsonify({'body': "Quote here", 'tags': []}))
+        add_link_hdr(rs, '/quotes', 'post')
+        return rs
+    return render_template('submit.html', nav=navs)
 
-        if len(content) > 10*1024: # 10kb, arbitrary limit
-            flash('Error: Quote too big', 'error')
-            error = True
-
-        if not error:
-            quote = Quote(content, ip)
-            quote.tags = map(Tag, tags)
-            db.put(quote)
-            flash('Quote Submited. Thanks!', 'success')
-
-        return render_template('message.html', nav=navs)
+@app.route('/quotes', methods=['POST'])
+def create_quote():
+    ip = request.headers['X-Real-Ip']
+    content = request.form['quote']
+    tags_raw = request.form['tags'] 
+    tags = []
+    error = False
+    # a smidgen of validation
+    if len(tags_raw) > 100:
+        flash('Error: Tags too big', 'error')
+        error = True
     else:
-        return render_template('submit.html', nav=navs)
+        tags = map(string.strip, tags_raw.split(','))
 
+    if len(content) > 10*1024: # 10kb, arbitrary limit
+        flash('Error: Quote too big', 'error')
+        error = True
+
+    quote = None
+    if not error:
+        quote = Quote(content, ip)
+        quote.tags = map(Tag, tags)
+        quote = db.put(quote) # grabbing return val isn't strictly necessary
+        flash('Quote Submited. Thanks!', 'success')
+
+    if request_wants_json():
+        rs = make_response(jsonify(quote))
+        add_loc_hdr(rs, '/quotes/%s' % (id))
+        return rs 
+        
+    return render_template('message.html', nav=navs)
 
 # convenience function to parse the querystring 
 def parse_qs(args, tag = None):

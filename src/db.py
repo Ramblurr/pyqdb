@@ -27,6 +27,7 @@ class SQLQuoteStore(IQuoteStore):
     def put(self, quote):
         db_session.add(quote)
         db_session.commit()
+        return quote
         
     def get(self, id):
         quote = db_session.query(Quote).filter_by(id=id).first()
