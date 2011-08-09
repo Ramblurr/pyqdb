@@ -12,14 +12,16 @@ from db import db
 from basic_auth import FlaskRealmDigestDB
 from news import News
 
-SECRET_KEY = 'iisasekret'
+SECRET_KEY = 'CHANGEME'
 DEBUG = True
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+# convenience function
 def nav(url, name):
-    return {'url': url, 'name': name}
+    nav_keys = ('url', 'name')
+    return dict(zip(nav_keys, (url, name))) 
 
 navs = [
     nav('/top', 'Top'),
@@ -64,7 +66,7 @@ def submit():
         else:
             tags = map(string.strip, tags_raw.split(','))
 
-        if len(content) > 10*1024: # 10kb
+        if len(content) > 10*1024: # 10kb, arbitrary limit
             flash('Error: Quote too big', 'error')
             error = True
 
@@ -78,6 +80,8 @@ def submit():
     else:
         return render_template('submit.html', nav=navs)
 
+
+# convenience function to parse the querystring 
 def parse_qs(args, tag = None):
     incr = 15
     start = args.get('start', 0, type=int)
@@ -87,14 +91,13 @@ def parse_qs(args, tag = None):
         count = db.count()
     next = min(start+incr, count)
     prev = max(start-incr, 0)
-    return (15, start, next, prev )
+    return (incr, start, next, prev )
 
 
 @app.route('/quotes')
 def latest():
     incr,start,next,prev = parse_qs(request.args)
     quotes = db.latest(incr, start)
-    
     return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev)
 
 @app.route('/search')
