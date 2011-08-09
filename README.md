@@ -8,20 +8,20 @@ Setup
 
 1. Check out source code
 
-    git clone git://github.com/Ramblurr/pyqdb.git
+    ```git clone git://github.com/Ramblurr/pyqdb.git```
 
 2. Install dependencies
 
-    pip install -U -r requirements.txt
+    ```pip install -U -r requirements.txt```
 
 3. Setup Database
 
-    cd src;
-    ./sql_setup.py
+    ```cd src;
+    ./sql_setup.py```
 
 4. Start server
 
-    python pyqdb.py
+    ```python pyqdb.py```
 
 API
 ---
