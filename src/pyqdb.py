@@ -207,9 +207,18 @@ def latest():
 def search():
     incr,start,next,prev = parse_qs(request.args)
     query = request.args.get('query', None)
+    json_error = {'error': 'nyi', 'error_msg': 'search not yet implemented'}
     if not query:
+        if request.wants_json():
+            rs = jsonify(json_error)
+            rs.status_code = 501
+            return rs
         return render_template('search.html', nav=navs)
 
+    if request.wants_json():
+        rs = jsonify(json_error)
+        rs.status_code = 501
+        return rs
     return render_template('search.html', nav=navs, quotes=db.search(query, incr, start), title="Search Results for '%s'" %(query), next=next, prev=prev, page="search", query=query)
 
 
