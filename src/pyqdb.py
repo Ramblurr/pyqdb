@@ -26,10 +26,16 @@ app = Flask(__name__)
 app.request_class = flask_override.Request
 app.config.from_object(__name__)
 
-# convenience function
+# convenience functions
 def nav(href, title):
     nav_keys = ('href', 'title')
     return dict(zip(nav_keys, (href, title))) 
+
+def json_nyi():
+    json_error = {'error': 'nyi', 'error_msg': 'search not yet implemented'}
+    rs = jsonify(json_error)
+    rs.status_code = 501
+    return rs
 
 navs = [
     nav('/top', 'Top'),
@@ -207,18 +213,13 @@ def latest():
 def search():
     incr,start,next,prev = parse_qs(request.args)
     query = request.args.get('query', None)
-    json_error = {'error': 'nyi', 'error_msg': 'search not yet implemented'}
     if not query:
         if request.wants_json():
-            rs = jsonify(json_error)
-            rs.status_code = 501
-            return rs
+            return json_nyi()
         return render_template('search.html', nav=navs)
 
     if request.wants_json():
-        rs = jsonify(json_error)
-        rs.status_code = 501
-        return rs
+        return json_nyi()
     return render_template('search.html', nav=navs, quotes=db.search(query, incr, start), title="Search Results for '%s'" %(query), next=next, prev=prev, page="search", query=query)
 
 
@@ -234,20 +235,28 @@ def tag(tag):
     incr,start,next,prev = parse_qs(request.args, tag)
     quotes = db.tag(tag, incr, start)
     page = 'tags/%s' % (tag)
+    if request.wants_json():
+        return json_nyi()
     return render_template('quotes.html', nav=navs, quotes=quotes, page=page, next=next, prev=prev, title="Quotes Tagged '%s'" %(tag))
 
 @app.route('/top')
 def top():
     incr,start,next,prev = parse_qs(request.args)
+    if request.wants_json():
+        return json_nyi()
     return render_template('quotes.html', nav=navs, quotes=db.top(incr, start), page='top', next=next, prev=prev)
 
 @app.route('/random')
 def random():
+    if request.wants_json():
+        return json_nyi()
     return render_template('quotes.html', nav=navs, quotes=db.random(15))
 
 @app.route('/quotes/<int:quote_id>')
 def single(quote_id):
     quotes = [ db.get(quote_id) ]
+    if request.wants_json():
+        return json_nyi()
     return render_template('quotes.html', nav=navs, quotes=quotes)
 
 @app.route('/quotes/<int:quote_id>/votes', methods=['GET', 'PUT'])
