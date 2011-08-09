@@ -255,6 +255,8 @@ def random():
 @app.route('/quotes/<int:quote_id>')
 def single(quote_id):
     quotes = [ db.get(quote_id) ]
+    if None in quotes:
+        abort(404)
     if request.wants_json():
         return json_nyi()
     return render_template('quotes.html', nav=navs, quotes=quotes)
@@ -263,6 +265,8 @@ def single(quote_id):
 def cast_vote(quote_id):
     ip = request.headers['X-Real-Ip']
     quote = db.get(quote_id)
+    if quote is None:
+        abort(404)
     if request.provided_json():
         return json_nyi()
     else:
@@ -272,11 +276,14 @@ def cast_vote(quote_id):
         return jsonify(db.up_vote(quote_id, ip))
     elif type == "down":
         return jsonify(db.down_vote(quote_id, ip))
+    abort(400)
 
 
 @app.route('/quotes/<int:quote_id>/votes')
 def fetch_votes(quote_id):
     quote = db.get(quote_id)
+    if quote is None:
+        abort(404)
     return quote.votes_json()
 
 @app.teardown_request
