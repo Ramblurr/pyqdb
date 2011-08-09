@@ -259,18 +259,25 @@ def single(quote_id):
         return json_nyi()
     return render_template('quotes.html', nav=navs, quotes=quotes)
 
-@app.route('/quotes/<int:quote_id>/votes', methods=['GET', 'PUT'])
-def votes(quote_id):
+@app.route('/quotes/<int:quote_id>/votes', methods=['PUT'])
+def cast_vote(quote_id):
     ip = request.headers['X-Real-Ip']
     quote = db.get(quote_id)
-    if request.method == 'GET':
-        return quote.votes_json()
-    elif request.method == 'PUT':
+    if request.provided_json():
+        return json_nyi()
+    else:
         type = request.form['type']
-        if type == "up":
-            return json.dumps(db.up_vote(quote_id, ip), cls=QuoteEncoder)
-        elif type == "down":
-            return json.dumps(db.down_vote(quote_id, ip), cls=QuoteEncoder)
+
+    if type == "up":
+        return jsonify(db.up_vote(quote_id, ip))
+    elif type == "down":
+        return jsonify(db.down_vote(quote_id, ip))
+
+
+@app.route('/quotes/<int:quote_id>/votes')
+def fetch_votes(quote_id):
+    quote = db.get(quote_id)
+    return quote.votes_json()
 
 @app.teardown_request
 def shutdown_session(exception=None):
