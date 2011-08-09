@@ -102,7 +102,8 @@ def create_quote():
 
     if request_wants_json():
         rs = make_response(jsonify(quote))
-        add_loc_hdr(rs, '/quotes/%s' % (id))
+        add_loc_hdr(rs, '/quotes/%s' % (quote.id))
+        rs.status_code = 201
         return rs 
         
     return render_template('message.html', nav=navs)
