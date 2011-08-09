@@ -66,6 +66,9 @@ quote_votes = Table('quote_votes', Base.metadata,
             lambda query, tag:query.filter(Tag.tag==tag)
     )
 class Tag(Base):
+    mimetype = 'application/vnd.pyqdb-tag'
+    json_mimetype = mimetype+'+json'
+
     __tablename__ = 'tags'
 
     id = Column(Integer, primary_key=True)
@@ -74,6 +77,9 @@ class Tag(Base):
         self.tag = tag
 
 class Quote(Base):
+    mimetype = 'application/vnd.pyqdb-quote'
+    json_mimetype = mimetype+'+json'
+
     __tablename__ = 'quotes'
 
     id = Column(Integer, primary_key=True)
