@@ -20,12 +20,16 @@ class QuoteEncoder(json.JSONEncoder):
                      'down': q.down_votes,
                      'body': q.body, 
                      'tags': q.tags, 
-                     'link': { 'rel': 'self', 'href': '/quotes/%s' %(q.id) }, # what if the url changes?
+                     'links': [
+                                { 'rel': 'self', 'href': '/quotes/%s' %(q.id) },
+                                { 'rel': 'vote', 'href': '/quotes/%s/votes' %(q.id) },
+                         #{ 'rel': 'report', 'href': '/quotes/%s/votes' %(q.id) },
+                              ],
                      'created': q.created }
         elif isinstance(q, Tag):
             return { 'id': q.id,
                      'tag': q.tag,
-                     'link': { 'rel': 'tag', 'href': '/quotes/tags/%s' % (q.tag) } }
+                     'links': [ { 'rel': 'self', 'href': '/quotes/tags/%s' % (q.tag) } ] }
         elif isinstance(q, (datetime.datetime, datetime.date)):
             return q.ctime()
         else:
