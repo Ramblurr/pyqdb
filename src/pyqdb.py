@@ -70,7 +70,7 @@ def authApi():
 @app.route('/quotes/new', methods=['GET'])
 def new_quote():
     if request_wants_json():
-        rs = make_response(jsonify({'body': "Quote here", 'tags': []}))
+        rs = jsonify({'body': "Quote here", 'tags': []})
         add_link_hdr(rs, '/quotes', 'post')
         return rs
     return render_template('submit.html', nav=navs)
@@ -101,7 +101,7 @@ def create_quote():
         flash('Quote Submited. Thanks!', 'success')
 
     if request_wants_json():
-        rs = make_response(jsonify(quote))
+        rs = jsonify(quote)
         add_loc_hdr(rs, '/quotes/%s' % (quote.id))
         rs.status_code = 201
         return rs 
