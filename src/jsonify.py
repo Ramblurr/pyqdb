@@ -19,12 +19,12 @@ class QuoteEncoder(json.JSONEncoder):
                      'down': q.down_votes,
                      'body': q.body, 
                      'tags': q.tags, 
-                     'uri': '/quotes/%s' %(q.id), # what if the url changes?
+                     'link': { 'rel': 'self', 'href': '/quotes/%s' %(q.id) }, # what if the url changes?
                      'created': q.created }
         elif isinstance(q, Tag):
             return { 'id': q.id,
                      'tag': q.tag,
-                     'uri': '/quotes/tags/%s' % (q.tag) }
+                     'link': { 'rel': 'tag', 'href': '/quotes/tags/%s' % (q.tag) } }
         elif isinstance(q, (datetime.datetime, datetime.date)):
             return q.ctime()
         else:
