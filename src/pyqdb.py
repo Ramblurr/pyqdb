@@ -90,7 +90,7 @@ def validate_quote(body, tags):
     return body_valid, tags_valid
 
 def create_quote_json():
-    ip = request.headers['X-Real-Ip']
+    ip = request.remote_addr
     data = request.json
 
     body_valid, tags_valid = validate_quote(data['body'], data['tags'])
@@ -106,7 +106,7 @@ def create_quote_json():
         return create_quote_resp_html(quote, body_valid, tags_valid)
      
 def create_quote_form():
-    ip = request.headers['X-Real-Ip']
+    ip = request.remote_addr
     type = request.headers['Content-Type']
 
     tags = []
@@ -245,7 +245,7 @@ def single(quote_id):
 
 @app.route('/quotes/<int:quote_id>/votes', methods=['PUT'])
 def cast_vote(quote_id):
-    ip = request.headers['X-Real-Ip']
+    ip = request.remote_addr
     quote = db.get(quote_id)
     if quote is None:
         abort(404)
@@ -261,6 +261,12 @@ def cast_vote(quote_id):
     else:
         abort(400)
     return jsonify(quote, Quote.json_mimetype)
+
+@app.route('/quotes/<int:quote_id>/remove', methods=['DELETE'])
+@authDB.requires_auth
+def removeQuote(quote_id):
+    print quote_id
+    pass
 
 
 @app.route('/quotes/<int:quote_id>/votes')
@@ -281,4 +287,4 @@ def shutdown_session(exception=None):
     db_session.remove()
 
 if __name__ == '__main__':
-    app.run(port=8080)
+    app.run(port=8081)
