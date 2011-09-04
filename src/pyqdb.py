@@ -262,13 +262,6 @@ def cast_vote(quote_id):
         abort(400)
     return jsonify(quote, Quote.json_mimetype)
 
-@app.route('/quotes/<int:quote_id>/remove', methods=['DELETE'])
-@authDB.requires_auth
-def removeQuote(quote_id):
-    print quote_id
-    pass
-
-
 @app.route('/quotes/<int:quote_id>/votes')
 def fetch_votes(quote_id):
     quote = db.get(quote_id)
@@ -287,4 +280,4 @@ def shutdown_session(exception=None):
     db_session.remove()
 
 if __name__ == '__main__':
-    app.run(port=8081)
+    app.run(port=8080)
