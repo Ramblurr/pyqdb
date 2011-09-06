@@ -177,6 +177,7 @@ def parse_qs(args, tag = None):
 def latest():
     incr,start,next,prev = parse_qs(request.args)
     quotes = db.latest(incr, start)
+    admin = authDB.isAuthenticated(request)
     if request.wants_json():
         next_link = '/quotes?start=%s' % (next)
         prev_link = '/quotes?start=%s' % (prev)
@@ -189,7 +190,7 @@ def latest():
         if start > 0:
             add_link_hdr(rs, prev_link, 'pyqdb/quotes/prev')
         return rs
-    return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev)
+    return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev, isAdmin=admin)
 
 @app.route('/search')
 def search():
@@ -216,32 +217,46 @@ def tags():
 def tag(tag):
     incr,start,next,prev = parse_qs(request.args, tag)
     quotes = db.tag(tag, incr, start)
+    admin = authDB.isAuthenticated(request)
     page = 'tags/%s' % (tag)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=quotes, page=page, next=next, prev=prev, title="Quotes Tagged '%s'" %(tag))
+    return render_template('quotes.html', nav=navs, quotes=quotes, page=page, next=next, prev=prev, title="Quotes Tagged '%s'" %(tag), isAdmin=admin)
 
 @app.route('/top')
 def top():
     incr,start,next,prev = parse_qs(request.args)
+    admin = authDB.isAuthenticated(request)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=db.top(incr, start), page='top', next=next, prev=prev)
+    return render_template('quotes.html', nav=navs, quotes=db.top(incr, start), page='top', next=next, prev=prev, isAdmin=admin)
 
 @app.route('/random')
 def random():
+    admin = authDB.isAuthenticated(request)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=db.random(15))
+    return render_template('quotes.html', nav=navs, quotes=db.random(15), isAdmin=admin)
 
 @app.route('/quotes/<int:quote_id>')
 def single(quote_id):
     quotes = [ db.get(quote_id) ]
+    admin = authDB.isAuthenticated(request)
     if None in quotes:
         abort(404)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=quotes)
+    return render_template('quotes.html', nav=navs, quotes=quotes, isAdmin=admin)
+
+@app.route('/quotes/<int:quote_id>', methods=['DELETE'])
+def remove(quote_id):
+    quote = db.get(quote_id)
+    if quote is None:
+        abort(404)
+    if request.provided_json():
+        return json_nyi()
+    db.delete(quote)
+    return "success"
 
 @app.route('/quotes/<int:quote_id>/votes', methods=['PUT'])
 def cast_vote(quote_id):
