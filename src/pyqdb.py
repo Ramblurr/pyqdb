@@ -7,6 +7,7 @@ import string
 from flask import Flask, request, session, g, \
                   redirect, url_for, abort, render_template, \
                   flash, make_response
+from werkzeug.contrib.fixers import ProxyFix
 
 # local includes
 from data_models import Quote, Tag, Vote
@@ -25,6 +26,7 @@ DEBUG = True
 app = Flask(__name__)
 app.request_class = flask_override.Request
 app.config.from_object(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 navs = [
     build_link('/top', 'pyqdb/quotes', Quote.list_json_mimetype, title='Top'),
