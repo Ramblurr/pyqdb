@@ -12,8 +12,6 @@
         <span id="quote-rating-{{q.id}}" class="quote-rating" title="Quote Rating">{{q.rating()}}</span><span
             class="quote-vote-count" title="Quote Vote Count">/<span id="quote-vote-count-{{q.id}}">{{q.num_votes()}}</span></span>
                 <a href="/quotes/{{q.id}}/votes" rel="nofollow" title="Down Vote" class="quote-rating-down" id="quote-rating-down-{{q.id}}">Down &darr;</a>
-                <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
-
                 {% if flagged %}
                 <span class="quote-flagged">[Flagged]</span>
                 {% else %}
@@ -30,6 +28,7 @@
                 <a href="/quotes/{{q.id}}" id="quote-remove-{{q.id}}" class="quote-remove" title="Removes Quote">[Remove]</a>
                 {% endif %}
                 <span class="quote-date" title="Submission Date">{{q.created_local().strftime("%Y-%m-%d %H:%M %Z")}}</span>
+                <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
                 <!-- endif allow allow remove -->
         <!-- else 
                 <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
