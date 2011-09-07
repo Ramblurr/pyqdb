@@ -321,7 +321,8 @@ ul.quote-list li .quote-tags .quote-tags-title {
 ul.quote-list div.quote-header .quote-edit,
 ul.quote-list div.quote-header .quote-remove,
 ul.quote-list div.quote-header .quote-unflag,
-ul.quote-list div.quote-header .quote-live-vote-result {
+ul.quote-list div.quote-header .quote-live-vote-result,
+.quote-report {
 	font-size: 80%;
 }
 

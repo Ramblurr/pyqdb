@@ -7,6 +7,7 @@ import string
 from flask import Flask, request, session, g, \
                   redirect, url_for, abort, render_template, \
                   flash, make_response
+from werkzeug.contrib.fixers import ProxyFix
 
 # local includes
 from data_models import Quote, Tag, Vote
@@ -25,6 +26,7 @@ DEBUG = True
 app = Flask(__name__)
 app.request_class = flask_override.Request
 app.config.from_object(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 navs = [
     build_link('/top', 'pyqdb/quotes', Quote.list_json_mimetype, title='Top'),
@@ -90,7 +92,7 @@ def validate_quote(body, tags):
     return body_valid, tags_valid
 
 def create_quote_json():
-    ip = request.headers['X-Real-Ip']
+    ip = request.remote_addr
     data = request.json
 
     body_valid, tags_valid = validate_quote(data['body'], data['tags'])
@@ -106,7 +108,7 @@ def create_quote_json():
         return create_quote_resp_html(quote, body_valid, tags_valid)
      
 def create_quote_form():
-    ip = request.headers['X-Real-Ip']
+    ip = request.remote_addr
     type = request.headers['Content-Type']
 
     tags = []
@@ -177,6 +179,7 @@ def parse_qs(args, tag = None):
 def latest():
     incr,start,next,prev = parse_qs(request.args)
     quotes = db.latest(incr, start)
+    admin = authDB.isAuthenticated(request)
     if request.wants_json():
         next_link = '/quotes?start=%s' % (next)
         prev_link = '/quotes?start=%s' % (prev)
@@ -189,7 +192,7 @@ def latest():
         if start > 0:
             add_link_hdr(rs, prev_link, 'pyqdb/quotes/prev')
         return rs
-    return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev)
+    return render_template('quotes.html', nav=navs, quotes=quotes, page='quotes', next=next, prev=prev, isAdmin=admin)
 
 @app.route('/search')
 def search():
@@ -216,36 +219,50 @@ def tags():
 def tag(tag):
     incr,start,next,prev = parse_qs(request.args, tag)
     quotes = db.tag(tag, incr, start)
+    admin = authDB.isAuthenticated(request)
     page = 'tags/%s' % (tag)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=quotes, page=page, next=next, prev=prev, title="Quotes Tagged '%s'" %(tag))
+    return render_template('quotes.html', nav=navs, quotes=quotes, page=page, next=next, prev=prev, title="Quotes Tagged '%s'" %(tag), isAdmin=admin)
 
 @app.route('/top')
 def top():
     incr,start,next,prev = parse_qs(request.args)
+    admin = authDB.isAuthenticated(request)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=db.top(incr, start), page='top', next=next, prev=prev)
+    return render_template('quotes.html', nav=navs, quotes=db.top(incr, start), page='top', next=next, prev=prev, isAdmin=admin)
 
 @app.route('/random')
 def random():
+    admin = authDB.isAuthenticated(request)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=db.random(15))
+    return render_template('quotes.html', nav=navs, quotes=db.random(15), isAdmin=admin)
 
 @app.route('/quotes/<int:quote_id>')
 def single(quote_id):
     quotes = [ db.get(quote_id) ]
+    admin = authDB.isAuthenticated(request)
     if None in quotes:
         abort(404)
     if request.wants_json():
         return json_nyi()
-    return render_template('quotes.html', nav=navs, quotes=quotes)
+    return render_template('quotes.html', nav=navs, quotes=quotes, isAdmin=admin)
+
+@app.route('/quotes/<int:quote_id>', methods=['DELETE'])
+def remove(quote_id):
+    quote = db.get(quote_id)
+    if quote is None:
+        abort(404)
+    if request.provided_json():
+        return json_nyi()
+    db.delete(quote)
+    return "success"
 
 @app.route('/quotes/<int:quote_id>/votes', methods=['PUT'])
 def cast_vote(quote_id):
-    ip = request.headers['X-Real-Ip']
+    ip = request.remote_addr
     quote = db.get(quote_id)
     if quote is None:
         abort(404)
@@ -261,7 +278,6 @@ def cast_vote(quote_id):
     else:
         abort(400)
     return jsonify(quote, Quote.json_mimetype)
-
 
 @app.route('/quotes/<int:quote_id>/votes')
 def fetch_votes(quote_id):
