@@ -26,7 +26,7 @@
                 <!-- endif allow unflag-->
                 <a href="/quotes/{{q.id}}" id="quote-remove-{{q.id}}" class="quote-remove" title="Removes Quote">[Remove]</a>
                 {% endif %}
-                <span class="quote-date" title="Submission Date">{{q.created_local().strftime("%Y-%m-%d %H:%M %Z")}}</span>
+                <span class="quote-date" title="Submission Date">{{q.created_local().strftime("%Y-%m-%d %H:%M")}}</span>
                 <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>
         <!-- else 
                 <span id="quote-live-vote-result-{{q.id}}" class="quote-live-vote-result"></span>

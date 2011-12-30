@@ -9,6 +9,10 @@ from flask import Flask, request, session, g, \
                   flash, make_response
 from werkzeug.contrib.fixers import ProxyFix
 
+# extensions
+from flaskext.cache import Cache
+from ratelimitcache import ratelimit, ratelimit_post
+
 # local includes
 from data_models import Quote, Tag, Vote
 from jsonify import jsonify
@@ -19,14 +23,17 @@ from basic_auth import FlaskRealmDigestDB
 from news import News
 from rest import build_link, add_loc_hdr, add_link_hdr
 
-# app config 
-SECRET_KEY = 'CHANGEME'
+# app config
+SECRET_KEY = '\xfb\x12\xdf\xa1@i\xd6>V\xc0\xbb\x8fp\x16#Z\x0b\x81\xeb\x16'
 DEBUG = True
+CACHE_TYPE = 'simple'
 
 app = Flask(__name__)
 app.request_class = flask_override.Request
 app.config.from_object(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
+
+cache = Cache(app)
 
 navs = [
     build_link('/top', 'pyqdb/quotes', Quote.list_json_mimetype, title='Top'),
@@ -74,6 +81,7 @@ def new_quote():
     return render_template('submit.html', nav=navs)
 
 @app.route('/quotes', methods=['POST'])
+@ratelimit_post(cache=cache.cache, minutes=1, requests=5)
 def create_quote():
     if request.provided_json():
         return create_quote_json()
