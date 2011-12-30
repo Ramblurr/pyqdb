@@ -74,7 +74,7 @@ class SQLQuoteStore(IQuoteStore):
         vote.voter_id = voter.id
         vote.type = type
 
-        result = db_session.query(Vote).filter_by(quote_id=id).filter_by(voter_i    d=voter.id).first()
+        result = db_session.query(Vote).filter_by(quote_id=id).filter_by(voter_id=voter.id).first()
         if not result is None:
             return False
 
