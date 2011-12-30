@@ -23,7 +23,7 @@ class IQuoteStore(object):
 class SQLQuoteStore(IQuoteStore):
     def connect(self):
         pass
-    
+
     def put(self, quote):
         db_session.add(quote)
         db_session.commit()
@@ -60,10 +60,10 @@ class SQLQuoteStore(IQuoteStore):
     def tag(self, tag, limit, offset):
         quotes = db_session.query(Quote).join(Quote.tags).filter(Quote.tags.contains(Tag(tag))).order_by(Quote.id.desc()).limit(limit).offset(offset).all()
         return quotes
-    
+
     def tag_count(self, tag):
         return db_session.query(Quote).join(Quote.tags).filter(Quote.tags.contains(Tag(tag))).count()
-        
+
 
     def _vote(self, id, ip, type):
         quote = self.get(id)
@@ -71,11 +71,13 @@ class SQLQuoteStore(IQuoteStore):
         voter = Voter(ip)
         vote = Vote(type)
         vote.quote_id = id
+        vote.voter_id = voter.id
         vote.type = type
-        result = db_session.query(Voter).filter(Voter.votes.any(Vote.quote_id==id)).filter(Voter.votes.any(Vote.type == type)).all()
-        if len(result) > 0:
+
+        result = db_session.query(Vote).filter_by(quote_id=id).filter_by(voter_i    d=voter.id).first()
+        if not result is None:
             return False
-    
+
         voter.votes.append( vote )
         if type == 'up':
             quote.up_votes += 1
@@ -87,7 +89,7 @@ class SQLQuoteStore(IQuoteStore):
 
     def up_vote(self, id, ip):
         return self._vote(id, ip, 'up')
-        
+
     def down_vote(self, id, ip):
         return self._vote(id, ip, 'down')
 
